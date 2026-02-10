@@ -706,7 +706,7 @@ body {
 }
 
 .split--reverse {
-    grid-template-columns: 0.9fr 1.1fr;
+    grid-template-columns: 1.1fr 0.9fr;
 }
 
 .content {
@@ -717,6 +717,7 @@ body {
     box-shadow: var(--shadowSoft);
     backdrop-filter: blur(10px) saturate(130%);
     -webkit-backdrop-filter: blur(10px) saturate(130%);
+    min-width: 0;
 }
 
 .bullets {
