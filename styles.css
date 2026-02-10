@@ -471,29 +471,38 @@ body {
 }
 
 /* Countdown */
+/* Countdown (Professional Design) */
 .countdown {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    gap: 12px;
+    margin-top: 14px;
 }
 
 .countdown__cell {
-    padding: 10px 10px 8px;
-    border-radius: 14px;
-    background: rgba(0, 0, 0, 0.18);
+    padding: 14px 6px 10px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    backdrop-filter: blur(10px);
 }
 
 .countdown__num {
-    font-weight: 900;
-    font-size: 18px;
+    font-weight: 700;
+    font-size: clamp(24px, 5vw, 42px);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: #fff;
+    letter-spacing: -0.02em;
 }
 
 .countdown__lbl {
-    margin-top: 4px;
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.68);
-    letter-spacing: 0.08em;
+    margin-top: 6px;
+    font-size: 10px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.1em;
     text-transform: uppercase;
 }
 
