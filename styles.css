@@ -382,6 +382,7 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
     text-decoration: none;
     padding: 10px 14px;
     border-radius: 999px;
@@ -732,6 +733,13 @@ body {
     background: rgba(0, 0, 0, 0.18);
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.86);
+}
+
+.bullet i {
+    margin-right: 8px;
+    width: 20px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .ctaRow {
