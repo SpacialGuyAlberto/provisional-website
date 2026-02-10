@@ -26,14 +26,9 @@
     const fmtInt = (n) =>
         new Intl.NumberFormat("de-DE").format(Math.max(0, Math.floor(n)));
 
-    /* ---------------- Nav emoji behavior ---------------- */
+    /* ---------------- Nav hover behavior ---------------- */
     const links = $$(".nav__link");
     links.forEach((link) => {
-        const emojiEl = link.querySelector(".nav__emoji");
-        const hasEmoji = link.dataset.hasEmoji === "true";
-        const emoji = link.dataset.emoji || "";
-        if (emojiEl) emojiEl.textContent = hasEmoji ? emoji : "";
-
         let leaveTimer;
         link.addEventListener("mouseenter", () => {
             if (leaveTimer) clearTimeout(leaveTimer);
