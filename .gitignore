@@ -1,0 +1,12 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# Database
+signup.db
+
+# OS Files
+.DS_Store
+Thumbs.db

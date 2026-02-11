@@ -191,10 +191,11 @@
             .trim()
             .toLowerCase();
 
-    form?.addEventListener("submit", (e) => {
+    form?.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const input = form.querySelector('input[name="email"]');
+        const btn = form.querySelector('button[type="submit"]');
         const email = normalizeEmail(input?.value);
 
         if (!email || !email.includes("@") || email.length < 6) {
@@ -204,23 +205,46 @@
         }
         input?.removeAttribute("aria-invalid");
 
-        // Placeholder storage (replace with real backend later)
+        // Disable button while loading
+        if (btn) {
+            btn.disabled = true;
+            btn.textContent = "Moment...";
+        }
+
         try {
-            const key = "snapyourdate_emails";
-            const raw = localStorage.getItem(key);
-            const arr = raw ? JSON.parse(raw) : [];
-            if (!arr.includes(email)) arr.push(email);
-            localStorage.setItem(key, JSON.stringify(arr.slice(0, 5000)));
-        } catch { }
+            const res = await fetch('/api/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
 
-        // Show step
-        if (followStep) followStep.hidden = false;
+            const data = await res.json();
 
-        // Show thanks after a short beat (feels responsive)
-        setTimeout(() => {
-            if (thanks) thanks.hidden = false;
-            followStep?.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 180);
+            if (res.ok) {
+                // Show step
+                if (followStep) followStep.hidden = false;
+
+                // Show thanks after a short beat
+                setTimeout(() => {
+                    if (thanks) thanks.hidden = false;
+                    followStep?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }, 180);
+            } else {
+                alert("Fehler: " + (data.error || "Unbekannter Fehler"));
+                if (btn) {
+                    btn.disabled = false;
+                    btn.textContent = "Eintragen";
+                }
+            }
+
+        } catch (err) {
+            console.error("Signup error:", err);
+            alert("Verbindungsfehler. Bitte versuche es später erneut.");
+            if (btn) {
+                btn.disabled = false;
+                btn.textContent = "Eintragen";
+            }
+        }
     });
 
     /* ---------------- Optional: set your song URL here ---------------- */
