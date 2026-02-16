@@ -274,11 +274,51 @@
                 if (geo && geo._latitude && geo._longitude) {
                     const lat = geo._latitude;
                     const lng = geo._longitude;
-                    const title = (loc.presentationTitle?.de) || loc.eventOrganizer || "Event Location";
+                    const title = (loc.presentationTitle?.de) || (loc.presentationTitle?.en) || loc.eventOrganizer || "Event Location";
+
+                    // Image Handling
+                    let imageUrl = '';
+                    if (loc.presentationImageUrls && loc.presentationImageUrls.length > 0) {
+                        imageUrl = loc.presentationImageUrls[0];
+                    } else if (loc.eventLogoPath) {
+                        // Assuming eventLogoPath is relative, might need a base URL or check if it's full
+                        // For now, let's use a placeholder if it's not a full URL or try to use it directly
+                        imageUrl = loc.eventLogoPath; // This might be a partial path, but let's try
+                    }
+
+                    // Fallback image if empty
+                    if (!imageUrl) {
+                        imageUrl = 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=600&auto=format&fit=crop';
+                    }
+
+                    // Description / Subtitle
+                    let description = "Event Location";
+                    if (loc.presentationDescription && loc.presentationDescription.length > 0) {
+                        description = loc.presentationDescription[0];
+                    } else if (loc.cityDocId) {
+                        // If we had city names mapped, we'd show it here. 
+                        // For now, show a generic text or empty
+                        description = "Auf der Karte entdecken";
+                    }
+
+                    const popupContent = `
+                        <div class="map-card">
+                            <div class="map-card-image" style="background-image: url('${imageUrl}')"></div>
+                            <div class="map-card-content">
+                                <div class="map-card-title">${title}</div>
+                                <p class="map-card-description">${description}</p>
+                                <a href="#" class="map-card-action">Mehr erfahren &rarr;</a>
+                            </div>
+                        </div>
+                    `;
 
                     L.marker([lat, lng])
                         .addTo(map)
-                        .bindPopup(`<b>${title}</b>`);
+                        .bindPopup(popupContent, {
+                            closeButton: false, // We use custom close style or rely on clicking outside
+                            minWidth: 280,
+                            maxWidth: 280
+                        });
 
                     markerCount++;
                 }
