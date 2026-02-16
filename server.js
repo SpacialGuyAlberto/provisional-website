@@ -6,12 +6,11 @@ const bodyParser = require('body-parser');
 const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '.')));
-
 
 
 require('dotenv').config();
@@ -36,12 +35,15 @@ const admin = require('firebase-admin');
 // Initialize Firebase Admin with Service Account
 const serviceAccount = require('./eywodate-c5659-firebase-adminsdk-o9xpc-5e8cecad7f.json');
 
+const { getFirestore } = require('firebase-admin/firestore');
+
 if (!admin.apps.length) {
     admin.initializeApp({
         credential: admin.credential.cert(serviceAccount)
     });
 }
-const db = admin.firestore();
+// Connect to 'staging' database
+const db = getFirestore(admin.app(), 'staging');
 
 app.post('/api/signup', async (req, res) => {
     const { email } = req.body;
@@ -106,15 +108,19 @@ app.post('/api/signup', async (req, res) => {
 // fetch locations from eventGroups collection
 app.get('/api/locations', async (req, res) => {
     try {
-        const snapshot = await db.collection('eventGroups').get();
-        if (snapshot.empty) {
-            return res.status(200).json([]);
-        }
-        const locations = [];
-        snapshot.forEach(doc => {
-            locations.push({ id: doc.id, ...doc.data() });
+        const groupsSnapshot = await db.collection('eventGroups').get();
+
+        const results = [];
+        groupsSnapshot.forEach(doc => {
+            const data = doc.data();
+            results.push({
+                id: doc.id,
+                ...data
+            });
         });
-        res.status(200).json(locations);
+
+        res.status(200).json(results);
+
     } catch (error) {
         console.error('Error fetching locations:', error);
         res.status(500).json({ error: 'Failed to fetch locations' });
