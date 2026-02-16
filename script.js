@@ -204,8 +204,6 @@
             return;
         }
         input?.removeAttribute("aria-invalid");
-
-        // Disable button while loading
         if (btn) {
             btn.disabled = true;
             btn.textContent = "Moment...";
@@ -221,10 +219,7 @@
             const data = await res.json();
 
             if (res.ok) {
-                // Show step
                 if (followStep) followStep.hidden = false;
-
-                // Show thanks after a short beat
                 setTimeout(() => {
                     if (thanks) thanks.hidden = false;
                     followStep?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -246,8 +241,56 @@
             }
         }
     });
+    /* ---------------- Map & Locations ---------------- */
+    const initMap = async () => {
+        const mapContainer = document.getElementById("locationsMap");
+        if (!mapContainer || !window.L) return;
 
-    /* ---------------- Optional: set your song URL here ---------------- */
-    // const song = $("#song");
-    // if (song) song.src = "https://YOUR-AUDIO-FILE.mp3";
+        // Center roughly on Germany
+        const map = L.map('locationsMap', {
+            scrollWheelZoom: false,
+            dragging: !L.Browser.mobile, // disable dragging on mobile init to prevent scroll trap
+            tap: false
+        }).setView([51.1657, 10.4515], 6);
+
+        // Dark style tiles (CartoDB Dark Matter)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 19
+        }).addTo(map);
+
+        try {
+            const res = await fetch('/api/locations');
+            if (!res.ok) throw new Error("Failed to fetch locations");
+            const locations = await res.json();
+
+            // Simple custom icon (red/brand color if we wanted, but default blue is fine for now, maybe filtered with CSS)
+            // Let's settle for default markers for speed, can customize later.
+
+            let markerCount = 0;
+            locations.forEach(loc => {
+                const geo = loc.presentationLocation?.geopoint;
+                if (geo && geo._latitude && geo._longitude) {
+                    const lat = geo._latitude;
+                    const lng = geo._longitude;
+                    const title = (loc.presentationTitle?.de) || loc.eventOrganizer || "Event Location";
+
+                    L.marker([lat, lng])
+                        .addTo(map)
+                        .bindPopup(`<b>${title}</b>`);
+
+                    markerCount++;
+                }
+            });
+            console.log(`Map initialized with ${markerCount} locations.`);
+
+        } catch (err) {
+            console.error("Map error:", err);
+        }
+    };
+
+    // Defer slightly to ensure Leaflet loads if async
+    setTimeout(initMap, 100);
+
 })();

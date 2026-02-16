@@ -10,3 +10,6 @@ signup.db
 # OS Files
 .DS_Store
 Thumbs.db
+
+# Service Account Key
+eywodate-c5659-firebase-adminsdk-o9xpc-5e8cecad7f.json

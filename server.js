@@ -1,5 +1,5 @@
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
+
 const nodemailer = require('nodemailer');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -8,32 +8,14 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '.'))); // Serve static files from current directory
+app.use(express.static(path.join(__dirname, '.')));
 
-// Database Setup
-const db = new sqlite3.Database('./signup.db', (err) => {
-    if (err) {
-        console.error('Error opening database:', err.message);
-    } else {
-        console.log('Connected to the SQLite database.');
-        db.run(`CREATE TABLE IF NOT EXISTS signups (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            email TEXT UNIQUE,
-            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-        )`, (err) => {
-            if (err) {
-                console.error('Error creating table:', err.message);
-            }
-        });
-    }
-});
+
 
 require('dotenv').config();
 
-// Email Transporter (Gmail)
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -42,7 +24,6 @@ let transporter = nodemailer.createTransport({
     }
 });
 
-// Verify connection configuration
 transporter.verify(function (error, success) {
     if (error) {
         console.log("Email server connection error:", error);
@@ -51,27 +32,41 @@ transporter.verify(function (error, success) {
     }
 });
 
-// API Routes
-app.post('/api/signup', (req, res) => {
+const admin = require('firebase-admin');
+// Initialize Firebase Admin with Service Account
+const serviceAccount = require('./eywodate-c5659-firebase-adminsdk-o9xpc-5e8cecad7f.json');
+
+if (!admin.apps.length) {
+    admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount)
+    });
+}
+const db = admin.firestore();
+
+app.post('/api/signup', async (req, res) => {
     const { email } = req.body;
 
     if (!email || !email.includes('@')) {
         return res.status(400).json({ error: 'Invalid email address' });
     }
 
-    const stmt = db.prepare('INSERT INTO signups (email) VALUES (?)');
-    stmt.run(email, function (err) {
-        if (err) {
-            if (err.message.includes('UNIQUE constraint failed')) {
-                return res.status(409).json({ error: 'Email already registered' });
-            }
-            console.error('Database error:', err.message);
-            return res.status(500).json({ error: 'Database error' });
+    try {
+        // Use email as the document ID to ensure uniqueness
+        const docRef = db.collection('signups').doc(email);
+        const doc = await docRef.get();
+
+        if (doc.exists) {
+            return res.status(409).json({ error: 'Email already registered' });
         }
 
-        console.log(`New signup: ${email} (ID: ${this.lastID})`);
+        // Save to Firestore
+        await docRef.set({
+            email: email,
+            timestamp: admin.firestore.FieldValue.serverTimestamp()
+        });
 
-        // Send Confirmation Email
+        console.log(`New signup: ${email}`);
+
         const mailOptions = {
             from: '"SNAPYOURDATE" <no-reply@snapyourdate.com>',
             to: email,
@@ -89,21 +84,41 @@ app.post('/api/signup', (req, res) => {
             `
         };
 
+        // Send email asynchronously logic
         if (transporter) {
             transporter.sendMail(mailOptions, (error, info) => {
                 if (error) {
                     console.error('Error sending email:', error);
-                    // Don't fail the request if email fails, just log it
                 } else {
                     console.log('Confirmation email sent: %s', info.messageId);
-                    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
                 }
             });
         }
 
-        res.status(201).json({ message: 'Signup successful', id: this.lastID });
-    });
-    stmt.finalize();
+        res.status(201).json({ message: 'Signup successful' });
+
+    } catch (err) {
+        console.error('Firestore error:', err);
+        res.status(500).json({ error: 'Database error' });
+    }
+});
+
+// fetch locations from eventGroups collection
+app.get('/api/locations', async (req, res) => {
+    try {
+        const snapshot = await db.collection('eventGroups').get();
+        if (snapshot.empty) {
+            return res.status(200).json([]);
+        }
+        const locations = [];
+        snapshot.forEach(doc => {
+            locations.push({ id: doc.id, ...doc.data() });
+        });
+        res.status(200).json(locations);
+    } catch (error) {
+        console.error('Error fetching locations:', error);
+        res.status(500).json({ error: 'Failed to fetch locations' });
+    }
 });
 
 // Start Server

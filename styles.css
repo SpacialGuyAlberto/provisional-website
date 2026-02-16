@@ -1460,3 +1460,29 @@ body {
         transition: none !important;
     }
 }
+
+/* ===== Map ===== */
+#locationsMap {
+    width: 100%;
+    height: 480px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: var(--shadow);
+    background: #111;
+    z-index: 1;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Dark mode tweaks for Leaflet popups */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+    background: rgba(20, 20, 20, 0.95) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+    border-radius: 8px !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+    color: #fff !important;
+}

@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <title>SNAPYOURDATE — Echtzeit Dating</title>
+    <meta name="description" content="SNAPYOURDATE — Echtzeit Dating. LAST CHANCE. Ganz Deutschland entscheidet mit." />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <!-- BACKGROUND LAYERS -->
+    <div class="bg" aria-hidden="true">
+        <img class="bg__img" src="assets/hero_bg.png" alt="" loading="eager" decoding="async" fetchpriority="high" />
+        <div class="bg__overlay"></div>
+        <div class="bg__pattern"></div>
+    </div>
+
+    <!-- TOPBAR -->
+    <header class="topbar" role="banner">
+        <div class="topbar__inner">
+            <a class="brand" href="#top" aria-label="SNAPYOURDATE Start">
+                <span class="brand__name">SNAPYOURDATE</span><sup class="brand__tm">™</sup>
+            </a>
+            <nav class="nav" aria-label="Hauptnavigation">
+                <a class="nav__link nav__link--center" href="#vision" data-icon="fa-regular fa-eye">
+                    <span class="nav__label">Unsere Vision</span>
+                    <i class="nav__icon fa-regular fa-eye"></i>
+                    <span class="nav__emoji" aria-hidden="true"></span>
+                </a>
+
+                <a class="nav__link" href="#founder" data-icon="fa-solid fa-user-tie">
+                    <span class="nav__label">Gründer</span>
+                    <i class="nav__icon fa-solid fa-user-tie"></i>
+                </a>
+
+                <a class="nav__link" href="#community" data-icon="fa-solid fa-users">
+                    <span class="nav__label">Community</span>
+                    <i class="nav__icon fa-solid fa-users"></i>
+                </a>
+
+                <a class="nav__link" href="#signup" data-icon="fa-solid fa-pen-to-square">
+                    <span class="nav__label">Eintragen</span>
+                    <i class="nav__icon fa-solid fa-pen-to-square"></i>
+                </a>
+
+                <a class="nav__link" href="#germany" data-icon="fa-solid fa-location-dot">
+                    <span class="nav__label">Deutschland</span>
+                    <i class="nav__icon fa-solid fa-location-dot"></i>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="page" id="top">
+
+        <!-- HERO -->
+        <section class="hero" aria-label="Startbereich">
+            <div class="hero__inner reveal">
+                <p class="hero__kicker">Echtzeit‑Dating</p>
+                <h1 class="hero__headline">LAST CHANCE</h1>
+
+                <p class="hero__sub">
+                    Ganz Deutschland entscheidet mit — wir schalten über <strong>500 Locations</strong> frei.
+                </p>
+
+                <div class="hero__row">
+                    <div class="glassCard" aria-label="Countdown">
+                        <div class="glassCard__top">
+                            <span class="glassCard__label">Launch</span>
+                            <span class="glassCard__value">15. März 2026</span>
+                        </div>
+
+                        <div class="countdown" id="countdown" aria-live="polite">
+                            <div class="countdown__cell">
+                                <div class="countdown__num" data-cd="days">—</div>
+                                <div class="countdown__lbl">Tage</div>
+                            </div>
+                            <div class="countdown__cell">
+                                <div class="countdown__num" data-cd="hours">—</div>
+                                <div class="countdown__lbl">Std</div>
+                            </div>
+                            <div class="countdown__cell">
+                                <div class="countdown__num" data-cd="mins">—</div>
+                                <div class="countdown__lbl">Min</div>
+                            </div>
+                            <div class="countdown__cell">
+                                <div class="countdown__num" data-cd="secs">—</div>
+                                <div class="countdown__lbl">Sek</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glassCard" aria-label="Song Preview">
+                        <div class="glassCard__top">
+                            <span class="glassCard__label">Song Preview</span>
+                            <span class="glassCard__value">Rapunzel (Techno/Pop)</span>
+                        </div>
+
+                        <div class="audioRow">
+                            <!-- set src when ready -->
+                            <audio id="song" controls preload="none"></audio>
+                            <p class="audioRow__hint">Audio‑Link einsetzen, sobald final.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="hero__tagline">SNAPYOURDATE — DON'T WAIT.</p>
+
+                <div class="hero__ctaRow" aria-label="Aktion">
+                    <a class="btn btn--primary" href="#signup">Early Access sichern</a>
+                </div>
+
+                <div class="hero__microLink">
+                    <a class="microLink" href="#vision">Was wir bauen ↓</a>
+                </div>
+            </div>
+
+            <div class="scrollHint" aria-hidden="true">
+                <div class="scrollHint__line"></div>
+                <div class="scrollHint__txt">Scroll</div>
+            </div>
+        </section>
+
+        <!-- VISION -->
+        <section class="section" id="vision" aria-label="Unsere Vision" data-wm="ZWERG 8">
+            <div class="wrap">
+                <header class="section__head reveal">
+                    <p class="section__kicker">Unsere Vision</p>
+                    <h2 class="section__title">Raus aus dem Turm. Rein ins echte Leben.</h2>
+                    <p class="section__lead">
+                        SNAPYOURDATE bringt Dating zurück dahin, wo es entscheidet: in die Realität.
+                        Nicht endlos swipen — <strong>jetzt</strong> treffen.
+                    </p>
+                </header>
+
+                <div class="grid2">
+                    <article class="card reveal">
+                        <h3 class="card__title">Warum SNAPYOURDATE?</h3>
+                        <p class="card__text">
+                            Dating ist zu digital geworden: zu anonym, zu unverbindlich, zu viel Fantasie.
+                            SNAPYOURDATE macht Begegnung wieder sichtbar — an Orten, an denen Menschen wirklich sind.
+                        </p>
+                        <div class="chips" aria-label="Prinzipien">
+                            <span class="chip">Echtzeit statt Chat</span>
+                            <span class="chip">Orte statt Profile</span>
+                            <span class="chip">Entscheidung statt Warten</span>
+                        </div>
+                    </article>
+
+                    <article class="card reveal">
+                        <h3 class="card__title">ZWERG 8</h3>
+                        <p class="card__text">
+                            ZWERG 8 steht für die neue Perspektive:
+                            <strong>nicht kämpfen</strong>, <strong>nicht raten</strong> —
+                            <strong>verstehen und handeln</strong>.
+                            Es gibt immer neue Menschen, neue Hoffnung, neue Wege.
+                            <strong>Ihr entscheidet — wir bauen ein.</strong>
+                        </p>
+                        <div class="note">
+                            <strong>Claim:</strong> Echtzeit‑Dating · LAST CHANCE · Ganz Deutschland entscheidet.
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOUNDER + TOWERBAR -->
+        <section class="section section--alt" id="founder" aria-label="Gründer" data-wm="ZWERG 8">
+            <div class="wrap">
+                <div class="split">
+                    <div class="mediaCard reveal" aria-label="Drehort Tower Bar">
+                        <div class="mediaCard__badge"> <i class="fa-solid fa-clapperboard"></i> Drehort · Tower Bar ·
+                            Hotel Hafen Hamburg</div>
+                        <video class="mediaCard__video mediaCard__video--desktop" src="assets/founder_desktop.mp4"
+                            autoplay loop muted playsinline></video>
+                        <video class="mediaCard__video mediaCard__video--mobile" src="assets/founder_mobile.mp4"
+                            autoplay loop muted playsinline></video>
+                        <div class="mediaCard__shade"></div>
+                    </div>
+
+                    <div class="content reveal">
+                        <p class="section__kicker">Gründer</p>
+                        <h2 class="section__title">JJ (Johnny Jonit)</h2>
+                        <p class="section__lead">
+                            Ich bin der Gründer hinter SNAPYOURDATE. Der „Turm“ aus der Story ist real:
+                            die <strong>Tower Bar</strong> im Hotel Hafen Hamburg — unser Drehort für kurze, direkte
+                            Clips.
+                            Echte Fragen. Klare Antworten. Kein Gelaber.
+                        </p>
+
+                        <div class="bullets">
+                            <div class="bullet"><i class="fa-solid fa-clapperboard"></i> Drehort: Tower Bar =
+                                „Rapunzel‑Turm“ (Realitätsanker)</div>
+                            <div class="bullet"><i class="fa-solid fa-box-ballot"></i> Community entscheidet: Features,
+                                Locations, Richtung</div>
+                            <div class="bullet"><i class="fa-solid fa-rocket"></i> Launch: 15. März 2026</div>
+                        </div>
+
+                        <div class="ctaRow">
+                            <a class="btn btn--primary" href="#signup">Early Access sichern</a>
+                            <a class="btn btn--ghost" href="#community">Mitbauen</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="towerbarBlock">
+                    <header class="towerbarBlock__head reveal">
+                        <p class="section__kicker">Tower Bar</p>
+                        <h3 class="towerbarBlock__title">Der Turm ist real.</h3>
+                        <p class="towerbarBlock__lead">
+                            Kurzformat: Jemand klopft an — „eigentlich geschlossen“. Er hat einen Grund.
+                            Ein Cocktail, ein trockener Spruch, eine echte Frage — und dann Klartext.
+                            Neben mir: eine Barkeeperin, die mich korrigiert. Fokus: Gespräch.
+                        </p>
+                    </header>
+
+                    <div class="grid3">
+                        <article class="card reveal">
+                            <h3 class="card__title">Format</h3>
+                            <p class="card__text">Kurz, schnell, teilbar. Fokus auf echte Situationen.</p>
+                            <div class="miniTag">Clips</div>
+                        </article>
+
+                        <article class="card reveal">
+                            <h3 class="card__title">Themen</h3>
+                            <p class="card__text">Datingfehler (die „Zwerge“) — und der Ausweg (ZWERG 8).</p>
+                            <div class="miniTag">Klartext</div>
+                        </article>
+
+                        <article class="card reveal">
+                            <h3 class="card__title">Brücke zur App</h3>
+                            <p class="card__text">Aus Insight wird Handlung: raus aus dem Turm — rein in echte Orte.</p>
+                            <div class="miniTag">Echtzeit</div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMMUNITY -->
+        <section class="section" id="community" aria-label="Community" data-wm="DEUTSCHLAND">
+            <div class="wrap">
+                <header class="section__head reveal">
+                    <p class="section__kicker">Community</p>
+                    <h2 class="section__title">Ganz Deutschland entscheidet mit.</h2>
+                    <p class="section__lead">
+                        Diese Plattform entsteht mit euch — transparent, schnell, kreativ.
+                        Du bist nicht Zuschauer. Du bist Teil des Baus.
+                    </p>
+                </header>
+
+                <div class="grid3">
+                    <article class="card reveal">
+                        <h3 class="card__title">Abstimmen</h3>
+                        <p class="card__text">Welche Funktionen kommen zuerst? Ihr votet — wir bauen.</p>
+                        <div class="miniTag">Voting</div>
+                    </article>
+
+                    <article class="card reveal">
+                        <h3 class="card__title">Locations</h3>
+                        <p class="card__text">Bars, Hotels, Spots — echte Orte statt leere Chats.</p>
+                        <div class="miniTag">500+ Ziel</div>
+                    </article>
+
+                    <article class="card reveal">
+                        <h3 class="card__title">Creator / Partner</h3>
+                        <p class="card__text">Formate, Events, Clips — wenn du mitbauen willst, bist du richtig.</p>
+                        <div class="miniTag">Mitmachen</div>
+                    </article>
+                </div>
+
+                <div class="centerCta reveal">
+                    <a class="btn btn--primary" href="#signup">Jetzt eintragen</a>
+                    <a class="btn btn--ghost" href="#signup" id="igScroll">…und auf Instagram folgen</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SIGNUP -->
+        <section class="section section--alt" id="signup" aria-label="Eintragen" data-wm="EARLY ACCESS">
+            <div class="wrap">
+                <header class="section__head reveal">
+                    <p class="section__kicker">Eintragen</p>
+                    <h2 class="section__title">Early Access. Echt. Direkt.</h2>
+                    <p class="section__lead">
+                        Trag dich mit E‑Mail ein. Danach folge uns auf Instagram —
+                        damit sichtbar wird, wie viele dabei sind.
+                    </p>
+                </header>
+
+                <div class="signupCard reveal" aria-label="Eintragen Formular">
+                    <form id="waitlistForm" class="form" novalidate>
+                        <label class="field">
+                            <span class="field__lbl">E‑Mail</span>
+                            <input class="field__input" type="email" name="email" autocomplete="email"
+                                placeholder="deine@email.de" required />
+                        </label>
+
+                        <button class="btn btn--primary btn--wide" type="submit">Eintragen</button>
+                    </form>
+
+                    <div class="divider"></div>
+
+                    <div class="follow" id="followStep" hidden>
+                        <div class="follow__top">
+                            <div>
+                                <div class="follow__title">Nächster Schritt</div>
+                                <div class="follow__sub">Folge uns auf Instagram.</div>
+                            </div>
+                        </div>
+
+                        <div class="follow__actions one">
+                            <a class="btn btn--ghost btn--wide" id="igFollowBtn" href="#" target="_blank"
+                                rel="noopener">
+                                Auf Instagram folgen
+                            </a>
+                        </div>
+
+                        <div class="thanks" id="thanksState" hidden>
+                            <div class="thanks__title">Danke. Du bist eingetragen.</div>
+                            <div class="thanks__sub">Wir melden uns zum Launch.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GERMANY -->
+        <section class="section" id="germany" aria-label="Deutschland" data-wm="500 LOCATIONS">
+            <div class="wrap">
+                <div class="split split--reverse">
+                    <div class="content reveal">
+                        <p class="section__kicker">Deutschland</p>
+                        <h2 class="section__title">Echtzeit‑Locations statt leere Chats.</h2>
+                        <p class="section__lead">
+                            SNAPYOURDATE funktioniert über echte Orte: Du siehst, wo gerade Leben ist —
+                            und entscheidest, wohin du gehst.
+                        </p>
+
+                        <div class="bullets">
+                            <div class="bullet"><i class="fa-solid fa-location-crosshairs"></i> Freigeschaltete
+                                Locations (Bars, Hotels,
+                                Spots)</div>
+                            <div class="bullet"> <i class="fa-solid fa-users"></i> Live‑Auslastung: wie viele sind
+                                gerade dort</div>
+                            <div class="bullet"><i class="fa-solid fa-money-bill"></i> 24h Pass (geplant): 4€</div>
+                            <div class="bullet"><i class="fa-brands fa-instagram"></i> Du kennst eine Location? Schreib
+                                uns auf Instagram.</div>
+                        </div>
+
+                        <div class="ticker reveal" aria-label="Einpersonenhaushalte Ticker">
+                            <div class="ticker__label">Einpersonenhaushalte (Mikrozensus 2024)</div>
+                            <div class="ticker__viewport">
+                                <div class="ticker__track" id="tickerTrack"></div>
+                            </div>
+                            <div class="fine tiny">
+                                Quelle: Destatis (Stand 30. Jan 2026).
+                                <a class="sourceLink"
+                                    href="https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Haushalte-Familien/Tabellen/1-2-privathaushalte-bundeslaender.html"
+                                    target="_blank" rel="noopener">Tabelle öffnen</a>
+                            </div>
+                        </div>
+
+                        <div class="ctaRow">
+                            <a class="btn btn--primary" href="#signup">Eintragen</a>
+                            <a class="btn btn--ghost" href="https://instagram.com/" target="_blank" rel="noopener"><i
+                                    class="fa-brands fa-instagram"></i> Instagram öffnen</a>
+                        </div>
+                    </div>
+
+                    <div class="mapCard reveal" aria-label="Deutschlandkarte Demo">
+                        <div class="mapCard__badge">Live‑Locations (Visual)</div>
+                        <svg class="map" viewBox="0 0 520 640" aria-hidden="true">
+                            <defs>
+                                <radialGradient id="g" cx="50%" cy="35%" r="70%">
+                                    <stop offset="0%" stop-color="rgba(255,215,120,0.20)" />
+                                    <stop offset="45%" stop-color="rgba(120,175,255,0.18)" />
+                                    <stop offset="100%" stop-color="rgba(0,0,0,0)" />
+                                </radialGradient>
+                            </defs>
+
+                            <path class="map__shape" d="M270 40
+                   C315 55 350 90 365 135
+                   C385 200 430 225 440 285
+                   C450 340 410 380 410 430
+                   C410 490 365 535 320 565
+                   C275 595 240 605 200 595
+                   C145 580 115 540 105 485
+                   C92 415 60 380 75 320
+                   C90 260 120 230 125 185
+                   C135 110 185 55 240 45
+                   C252 43 260 41 270 40 Z" />
+                            <circle class="map__glow" cx="260" cy="260" r="210" fill="url(#g)" />
+
+                            <g class="dot dot--a">
+                                <circle class="dot__core" cx="215" cy="255" r="5"></circle>
+                                <circle class="dot__pulse" cx="215" cy="255" r="12"></circle>
+                            </g>
+                            <g class="dot dot--b">
+                                <circle class="dot__core" cx="290" cy="210" r="5"></circle>
+                                <circle class="dot__pulse" cx="290" cy="210" r="12"></circle>
+                            </g>
+                            <g class="dot dot--c">
+                                <circle class="dot__core" cx="260" cy="340" r="5"></circle>
+                                <circle class="dot__pulse" cx="260" cy="340" r="12"></circle>
+                            </g>
+                            <g class="dot dot--d">
+                                <circle class="dot__core" cx="220" cy="430" r="5"></circle>
+                                <circle class="dot__pulse" cx="220" cy="430" r="12"></circle>
+                            </g>
+                            <g class="dot dot--e">
+                                <circle class="dot__core" cx="330" cy="380" r="5"></circle>
+                                <circle class="dot__pulse" cx="330" cy="380" r="12"></circle>
+                            </g>
+                        </svg>
+
+                        <div class="mapCard__legend">
+                            <span class="legendDot"></span> Punkt = aktive Location (Visual)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer" aria-label="Footer">
+            <div class="wrap footer__inner">
+                <div class="footer__brand">
+                    <div class="footer__logo">SNAPYOURDATE <sup>™</sup></div>
+                    <div class="footer__sub">Echtzeit‑Dating · LAST CHANCE · Deutschland entscheidet</div>
+                </div>
+
+                <div class="footer__cols">
+                    <div class="footer__col">
+                        <div class="footer__h">Ort</div>
+                        <div class="footer__p">Hotel Hafen Hamburg · Tower Bar</div>
+                    </div>
+                    <div class="footer__col">
+                        <div class="footer__h">Rechtliches</div>
+                        <a class="footer__a" href="#top">Impressum (Placeholder)</a>
+                        <a class="footer__a" href="#top">Datenschutz (Placeholder)</a>
+                    </div>
+                    <div class="footer__col">
+                        <div class="footer__h">Kontakt</div>
+                        <a class="footer__a" href="#signup">Eintragen</a>
+                        <a class="footer__a" href="#community">Mitmachen</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+{
+  "name": "provisional-website",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "engines": {
+    "node": "18"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SpacialGuyAlberto/provisional-website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/SpacialGuyAlberto/provisional-website/issues"
+  },
+  "homepage": "https://github.com/SpacialGuyAlberto/provisional-website#readme",
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.4",
+    "express": "^5.2.1",
+    "firebase-admin": "^12.0.0",
+    "nodemailer": "^8.0.1"
+  }
+}
