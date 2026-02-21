@@ -20,7 +20,15 @@
 <body>
     <!-- BACKGROUND LAYERS -->
     <div class="bg" aria-hidden="true">
-        <img class="bg__img" src="assets/hero_bg.png" alt="" loading="eager" decoding="async" fetchpriority="high" />
+        <div class="bg__carousel">
+            <img class="bg__img is-active" src="assets/istockphoto-2187265621-2048x2048.jpg" alt="" loading="eager" />
+            <img class="bg__img" src="assets/istockphoto-858658344-2048x2048.jpg" alt="" loading="lazy" />
+            <img class="bg__img" src="assets/istockphoto-910714956-2048x2048.jpg" alt="" loading="lazy" />
+            <img class="bg__img" src="assets/istockphoto-956390072-2048x2048.jpg" alt="" loading="lazy" />
+            <img class="bg__img"
+                src="assets/the-world-belongs-to-us-two-cheerful-young-women-having-a-celebratory-toast-with-drinks-inside-of-a-bar-at-night-2K94AA7.jpg"
+                alt="" loading="lazy" />
+        </div>
         <div class="bg__overlay"></div>
         <div class="bg__pattern"></div>
     </div>
@@ -143,10 +151,10 @@
             <div class="wrap">
                 <header class="section__head reveal">
                     <p class="section__kicker">Unsere Vision</p>
-                    <h2 class="section__title">Raus aus dem Turm. Rein ins echte Leben.</h2>
+                    <h2 class="section__title">Nicht mehr raten — sehen, wo Begegnung möglich ist.</h2>
                     <p class="section__lead">
-                        SNAPYOURDATE bringt Dating zurück dahin, wo es entscheidet: in die Realität.
-                        Nicht endlos swipen — <strong>jetzt</strong> treffen.
+                        SNAPYOURDATE macht den Moment sichtbar: Orte, an denen Singles wirklich gerade da sind.
+                        Weniger Kopfkino. Mehr Klarheit.
                     </p>
                 </header>
 
@@ -154,8 +162,9 @@
                     <article class="card reveal">
                         <h3 class="card__title">Warum SNAPYOURDATE?</h3>
                         <p class="card__text">
-                            Dating ist zu digital geworden: zu anonym, zu unverbindlich, zu viel Fantasie.
-                            SNAPYOURDATE macht Begegnung wieder sichtbar — an Orten, an denen Menschen wirklich sind.
+                            Viele Apps fühlen sich wie Beschäftigung an. Viel Bewegung, wenig Ergebnis.
+                            SNAPYOURDATE dreht die Logik um: <strong>Ort zuerst</strong>, dann Kontakt.
+                            Wenn du aktiv bist, siehst du, wo es gerade Sinn macht — und entscheidest in Ruhe.
                         </p>
                         <div class="chips" aria-label="Prinzipien">
                             <span class="chip">Echtzeit statt Chat</span>
@@ -165,13 +174,11 @@
                     </article>
 
                     <article class="card reveal">
-                        <h3 class="card__title">ZWERG 8</h3>
+                        <h3 class="card__title">WAS WIR BAUEN</h3>
                         <p class="card__text">
-                            ZWERG 8 steht für die neue Perspektive:
-                            <strong>nicht kämpfen</strong>, <strong>nicht raten</strong> —
-                            <strong>verstehen und handeln</strong>.
-                            Es gibt immer neue Menschen, neue Hoffnung, neue Wege.
-                            <strong>Ihr entscheidet — wir bauen ein.</strong>
+                            Diese Seite ist der Startpunkt. Dahinter wächst eine Plattform como un Baukasten:
+                            neue Module, neue Orte, neue Formate. Der Dating‑App‑Gründer hat vorgelegt —
+                            gemeinsam mit la Community decidimos qué es lo próximo que va en vivo.
                         </p>
                         <div class="note">
                             <strong>Claim:</strong> Echtzeit‑Dating · LAST CHANCE · Ganz Deutschland entscheidet.
@@ -188,10 +195,7 @@
                     <div class="mediaCard reveal" aria-label="Drehort Tower Bar">
                         <div class="mediaCard__badge"> <i class="fa-solid fa-clapperboard"></i> Drehort · Tower Bar ·
                             Hotel Hafen Hamburg</div>
-                        <video class="mediaCard__video mediaCard__video--desktop" src="assets/founder_desktop.mp4"
-                            autoplay loop muted playsinline></video>
-                        <video class="mediaCard__video mediaCard__video--mobile" src="assets/founder_mobile.mp4"
-                            autoplay loop muted playsinline></video>
+                        <video id="founderVideo" class="mediaCard__video" autoplay loop muted playsinline></video>
                         <div class="mediaCard__shade"></div>
                     </div>
 
@@ -389,10 +393,11 @@
                         <div class="mapCard__badge">Live‑Locations (Visual)</div>
                         <svg class="map" viewBox="0 0 520 640" aria-hidden="true">
                             <defs>
-                                <radialGradient id="g" cx="50%" cy="35%" r="70%">
-                                    <stop offset="0%" stop-color="rgba(255,215,120,0.20)" />
-                                    <stop offset="45%" stop-color="rgba(120,175,255,0.18)" />
-                                    <stop offset="100%" stop-color="rgba(0,0,0,0)" />
+                                <radialGradient id="g" cx="50%" cy="40%" r="70%">
+                                    <stop offset="0%" stop-color="rgba(255, 160, 40, 0.45)" />
+                                    <stop offset="30%" stop-color="rgba(80, 140, 255, 0.28)" />
+                                    <stop offset="70%" stop-color="rgba(20, 30, 60, 0.15)" />
+                                    <stop offset="100%" stop-color="rgba(0, 0, 0, 0)" />
                                 </radialGradient>
                             </defs>
 

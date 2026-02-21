@@ -127,6 +127,59 @@
     window.addEventListener("scroll", updateBg, { passive: true });
     updateBg();
 
+    /* ---------------- Background Carousel ---------------- */
+    const carouselImages = $$(".bg__carousel .bg__img");
+    let currentIdx = 0;
+
+    const nextImage = () => {
+        if (carouselImages.length < 2) return;
+
+        carouselImages[currentIdx].classList.remove("is-active");
+        currentIdx = (currentIdx + 1) % carouselImages.length;
+        carouselImages[currentIdx].classList.add("is-active");
+    };
+
+    if (carouselImages.length > 1) {
+        setInterval(nextImage, 5000);
+    }
+
+    /* ---------------- Founder Video Manager ---------------- */
+    const founderVideo = $("#founderVideo");
+    if (founderVideo) {
+        const desktopSrc = "assets/istockphoto-514978584-640_adpp_is.mp4";
+        const mobileSrc = "assets/istockphoto-1263263145-640_adpp_is.mp4";
+
+        const updateVideoSource = () => {
+            const isMobile = window.innerWidth <= 760;
+            const targetSrc = isMobile ? mobileSrc : desktopSrc;
+
+            if (founderVideo.getAttribute("src") !== targetSrc) {
+                founderVideo.src = targetSrc;
+                founderVideo.load();
+            }
+        };
+
+        // Initialize and listen for resize
+        updateVideoSource();
+        window.addEventListener("resize", updateVideoSource);
+
+        // Fade in when loaded
+        founderVideo.oncanplay = () => founderVideo.classList.add("is-loaded");
+
+        // Intersection Observer for performance: only play when in view
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    founderVideo.play().catch(() => { });
+                } else {
+                    founderVideo.pause();
+                }
+            });
+        }, { threshold: 0.1 });
+
+        videoObserver.observe(founderVideo);
+    }
+
     /* ---------------- Countdown ---------------- */
     const launch = new Date(LAUNCH_ISO).getTime();
     const cdRoot = $("#countdown");
@@ -246,62 +299,95 @@
         const mapContainer = document.getElementById("locationsMap");
         if (!mapContainer || !window.L) return;
 
-        // Center roughly on Germany
+        // Center on Hamburg (where the promotion is)
         const map = L.map('locationsMap', {
             scrollWheelZoom: false,
             dragging: !L.Browser.mobile, // disable dragging on mobile init to prevent scroll trap
             tap: false
-        }).setView([51.1657, 10.4515], 6);
+        }).setView([53.5511, 9.9937], 12);
 
-        // Dark style tiles (CartoDB Dark Matter)
+        // Standard Dark style tiles (Native visibility)
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
             subdomains: 'abcd',
             maxZoom: 19
         }).addTo(map);
 
+        // Geolocation: Center on user
+        console.log("Checking geolocation availability...");
+        if (navigator.geolocation) {
+            console.log("Geolocation is available. Requesting position...");
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    console.log("Geolocation granted:", pos.coords);
+                    const { latitude, longitude } = pos.coords;
+                    map.flyTo([latitude, longitude], 15, {
+                        duration: 3, // 3 seconds for a smooth fly-in effect
+                        easeLinearity: 0.25
+                    });
+                },
+                (err) => {
+                    console.warn("Geolocation error or denied:", err.code, err.message);
+                },
+                { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+            );
+        } else {
+            console.warn("Geolocation API not supported by this browser.");
+        }
+
         try {
             const res = await fetch('/api/locations');
             if (!res.ok) throw new Error("Failed to fetch locations");
             const locations = await res.json();
+            console.log(`Fetched ${locations.length} locations from API.`);
 
-            // Simple custom icon (red/brand color if we wanted, but default blue is fine for now, maybe filtered with CSS)
-            // Let's settle for default markers for speed, can customize later.
+            // Custom glowing marker icon
+            const customIcon = L.divIcon({
+                className: 'custom-marker',
+                html: '<div class="marker-pin"></div>',
+                iconSize: [20, 20],
+                iconAnchor: [10, 10]
+            });
+
+            // TEST MARKER in Hamburg to verify style
+            L.marker([53.5511, 9.9937], { icon: customIcon })
+                .addTo(map)
+                .bindPopup('<div class="map-card"><div class="map-card-content"><div class="map-card-title">Hamburg Promo</div><p class="map-card-description">Test marker for neon design.</p></div></div>');
 
             let markerCount = 0;
             locations.forEach(loc => {
                 const geo = loc.presentationLocation?.geopoint;
-                if (geo && geo._latitude && geo._longitude) {
-                    const lat = geo._latitude;
-                    const lng = geo._longitude;
-                    const title = (loc.presentationTitle?.de) || (loc.presentationTitle?.en) || loc.eventOrganizer || "Event Location";
+                console.log("Processing location:", loc.id, geo);
 
-                    // Image Handling
-                    let imageUrl = '';
-                    if (loc.presentationImageUrls && loc.presentationImageUrls.length > 0) {
-                        imageUrl = loc.presentationImageUrls[0];
-                    } else if (loc.eventLogoPath) {
-                        // Assuming eventLogoPath is relative, might need a base URL or check if it's full
-                        // For now, let's use a placeholder if it's not a full URL or try to use it directly
-                        imageUrl = loc.eventLogoPath; // This might be a partial path, but let's try
-                    }
+                if (geo) {
+                    const lat = geo.latitude || geo._latitude;
+                    const lng = geo.longitude || geo._longitude;
 
-                    // Fallback image if empty
-                    if (!imageUrl) {
-                        imageUrl = 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=600&auto=format&fit=crop';
-                    }
+                    if (lat !== undefined && lng !== undefined) {
+                        const title = (loc.presentationTitle?.de) || (loc.presentationTitle?.en) || loc.eventOrganizer || "Event Location";
 
-                    // Description / Subtitle
-                    let description = "Event Location";
-                    if (loc.presentationDescription && loc.presentationDescription.length > 0) {
-                        description = loc.presentationDescription[0];
-                    } else if (loc.cityDocId) {
-                        // If we had city names mapped, we'd show it here. 
-                        // For now, show a generic text or empty
-                        description = "Auf der Karte entdecken";
-                    }
+                        // Image Handling
+                        let imageUrl = '';
+                        if (loc.presentationImageUrls && loc.presentationImageUrls.length > 0) {
+                            imageUrl = loc.presentationImageUrls[0];
+                        } else if (loc.eventLogoPath) {
+                            imageUrl = loc.eventLogoPath;
+                        }
 
-                    const popupContent = `
+                        // Fallback image if empty
+                        if (!imageUrl) {
+                            imageUrl = 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=600&auto=format&fit=crop';
+                        }
+
+                        // Description / Subtitle
+                        let description = "Event Location";
+                        if (loc.presentationDescription && loc.presentationDescription.length > 0) {
+                            description = loc.presentationDescription[0];
+                        } else if (loc.cityDocId) {
+                            description = "Auf der Karte entdecken";
+                        }
+
+                        const popupContent = `
                         <div class="map-card">
                             <div class="map-card-image" style="background-image: url('${imageUrl}')"></div>
                             <div class="map-card-content">
@@ -312,15 +398,17 @@
                         </div>
                     `;
 
-                    L.marker([lat, lng])
-                        .addTo(map)
-                        .bindPopup(popupContent, {
-                            closeButton: false, // We use custom close style or rely on clicking outside
-                            minWidth: 280,
-                            maxWidth: 280
-                        });
+                        L.marker([lat, lng], { icon: customIcon })
+                            .addTo(map)
+                            .bindPopup(popupContent, {
+                                closeButton: true,
+                                minWidth: 260,
+                                maxWidth: 260,
+                                className: 'custom-popup'
+                            });
 
-                    markerCount++;
+                        markerCount++;
+                    }
                 }
             });
             console.log(`Map initialized with ${markerCount} locations.`);

@@ -119,6 +119,7 @@ app.get('/api/locations', async (req, res) => {
             });
         });
 
+        console.log(`Sending ${results.length} locations to client.`);
         res.status(200).json(results);
 
     } catch (error) {
