@@ -438,7 +438,7 @@
                         if (!floatingCard) {
                             floatingCard = document.createElement('div');
                             floatingCard.id = 'floating-date-card';
-                            document.body.appendChild(floatingCard);
+                            mapContainer.appendChild(floatingCard); // Dentro del mapa
 
                             // Cierra la tarjeta si tocas el mapa de fondo
                             map.on('click', () => {

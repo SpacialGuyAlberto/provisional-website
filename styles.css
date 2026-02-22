@@ -1477,7 +1477,8 @@ body {
 /* ===== Map ===== */
 #locationsMap {
     width: 100%;
-    height: 480px;
+    height: 650px;
+    /* Mas grande */
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: var(--shadow);
@@ -1889,13 +1890,14 @@ body {
    TARJETA FLOTANTE (FUERA DEL MAPA)
 ========================================= */
 #floating-date-card {
-    position: fixed;
-    /* La centramos en la pantalla */
+    position: absolute;
+    /* Ahora es relativo al contenedor del mapa */
+    /* Lo centramos dentro del mapa */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -45%) scale(0.95);
-    z-index: 99999;
-    /* Por encima de todo, incluso el menú de navegación */
+    z-index: 1000;
+    /* Suficiente para estar sobre Leaflet pero dentro del div */
 
     /* Configuración inicial oculta */
     opacity: 0;
