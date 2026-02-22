@@ -1679,8 +1679,55 @@ body {
 }
 
 /* =========================================
-   DISEÑO DE LA TARJETA (POPUP)
+   BOTÓN RE-CENTRAR MAPA
 ========================================= */
+#recenter-map-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 500;
+    /* Sobre el mapa y el resplandor central */
+
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+#recenter-map-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(120, 175, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+#recenter-map-btn.is-loading {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+#recenter-map-btn.is-loading span {
+    opacity: 0.5;
+}
+
+@media (max-width: 560px) {
+    #recenter-map-btn {
+        bottom: 15px;
+        right: 15px;
+        font-size: 11px;
+        padding: 8px 12px;
+    }
+}
 
 /* Ajustes base del contenedor de Leaflet */
 .leaflet-popup-content {

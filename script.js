@@ -314,27 +314,43 @@
             maxZoom: 19
         }).addTo(map);
 
-        // Geolocation: Center on user
-        console.log("Checking geolocation availability...");
-        if (navigator.geolocation) {
-            console.log("Geolocation is available. Requesting position...");
-            navigator.geolocation.getCurrentPosition(
-                (pos) => {
-                    console.log("Geolocation granted:", pos.coords);
-                    const { latitude, longitude } = pos.coords;
-                    map.flyTo([latitude, longitude], 15, {
-                        duration: 3, // 3 seconds for a smooth fly-in effect
-                        easeLinearity: 0.25
-                    });
-                },
-                (err) => {
-                    console.warn("Geolocation error or denied:", err.code, err.message);
-                },
-                { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
-            );
-        } else {
-            console.warn("Geolocation API not supported by this browser.");
-        }
+        // --- BOTÓN DE RE-CENTRAR ---
+        const recenterBtn = document.createElement('button');
+        recenterBtn.id = 'recenter-map-btn';
+        recenterBtn.innerHTML = '🎯 <span>Mi ubicación</span>';
+        recenterBtn.title = 'Centrar en mi ubicación';
+        mapContainer.appendChild(recenterBtn);
+
+        const handleGeolocation = () => {
+            console.log("Checking geolocation availability...");
+            if (navigator.geolocation) {
+                recenterBtn.classList.add('is-loading');
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => {
+                        console.log("Geolocation granted:", pos.coords);
+                        const { latitude, longitude } = pos.coords;
+                        map.flyTo([latitude, longitude], 15, {
+                            duration: 2,
+                            easeLinearity: 0.25
+                        });
+                        recenterBtn.classList.remove('is-loading');
+                    },
+                    (err) => {
+                        console.warn("Geolocation error or denied:", err.code, err.message);
+                        recenterBtn.classList.remove('is-loading');
+                        alert("No se pudo obtener tu ubicación. Asegúrate de dar permisos en el navegador.");
+                    },
+                    { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+                );
+            } else {
+                console.warn("Geolocation API not supported by this browser.");
+            }
+        };
+
+        recenterBtn.addEventListener('click', handleGeolocation);
+
+        // Geolocation inicial (opcional, si quieres que empiece ahí)
+        // handleGeolocation();
 
         try {
             const res = await fetch('/api/locations');
