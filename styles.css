@@ -1490,19 +1490,40 @@ body {
     margin-bottom: 2rem;
 }
 
+/* ESTE ES EL FILTRO DE LUZ NARANJA/AZUL */
 #locationsMap::before {
     content: "";
     position: absolute;
+    /* Centramos la mancha de luz */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    /* Ocupa todo el mapa */
     width: 100%;
     height: 100%;
-    /* Degradado suavizado para que parezca luz volumétrica */
-    background: radial-gradient(circle, rgba(255, 170, 50, 0.35) 0%, rgba(80, 150, 255, 0.2) 40%, rgba(0, 0, 0, 0) 75%);
-    pointer-events: none;
-    z-index: 400;
+
+    /* EL DEGRADADO "RADIACTIVO": 
+       - Centro: Naranja intenso
+       - Medio: Azul brillante
+       - Borde: Transparente (para que se funda con el negro) */
+    background: radial-gradient(circle at center,
+            rgba(255, 160, 60, 0.7) 0%,
+            /* Centro Naranja */
+            rgba(80, 160, 255, 0.4) 40%,
+            /* Halo Azul */
+            rgba(0, 0, 0, 0) 75%
+            /* Final transparente */
+        );
+
+    /* IMPORTANTE: Esto hace que la luz se "sume" a las líneas azules que ya tienes */
     mix-blend-mode: screen;
+
+    /* IMPORTANTE: Permite hacer clic en el mapa a través de la luz */
+    pointer-events: none;
+
+    /* Se coloca por encima del mapa base */
+    z-index: 400;
 }
 
 /* Dark mode tweaks for Leaflet popups */
