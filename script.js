@@ -301,7 +301,7 @@
 
         // Center on Hamburg (where the promotion is)
         const map = L.map('locationsMap', {
-            scrollWheelZoom: false,
+            scrollWheelZoom: true,
             dragging: !L.Browser.mobile, // disable dragging on mobile init to prevent scroll trap
             tap: false
         }).setView([51.1657, 10.4515], 6); // 6 es el nivel de zoom ideal para ver todo el país
