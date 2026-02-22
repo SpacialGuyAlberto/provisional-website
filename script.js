@@ -389,24 +389,82 @@
                         }
 
                         const popupContent = `
-                        <div class="map-card">
-                            <div class="map-card-image" style="background-image: url('${imageUrl}')"></div>
-                            <div class="map-card-content">
-                                <div class="map-card-title">${title}</div>
-                                <p class="map-card-description">${description}</p>
-                                <a href="#" class="map-card-action">Mehr erfahren &rarr;</a>
+                        <div class="date-card">
+                            <div class="date-card-hero" style="background-image: url('${imageUrl}')">
+                                <span class="date-card-badge">RESTAURANT</span>
+                            </div>
+                            <div class="date-card-body">
+                                <div class="date-card-header">
+                                    <h3 class="date-card-title">${title}</h3>
+                                    <div class="date-card-rating">
+                                        <span class="star">★</span> 4.6 <span class="max-rating">/5</span>
+                                    </div>
+                                </div>
+                                <div class="date-card-subtitle">${description}</div>
+
+                                <div class="date-card-stats">
+                                    <div class="stat-box">
+                                        <span class="stat-label">SINGLES</span>
+                                        <div class="stat-value"><span class="stat-circle">9</span> jetzt</div>
+                                    </div>
+                                    <div class="stat-box">
+                                        <span class="stat-label">Ø</span>
+                                        <div class="stat-value"><span class="stat-circle">16</span> typisch</div>
+                                    </div>
+                                </div>
+
+                                <div class="date-card-address">
+                                    <span class="address-label">ADRESSE</span>
+                                    <div class="address-value">Prenzlauer Berg • Berlin</div>
+                                </div>
+
+                                <div class="date-card-actions">
+                                    <button class="btn-card btn-route">Route öffnen</button>
+                                    <button class="btn-card btn-save">Merken</button>
+                                </div>
+
+                                <div class="date-card-footer">
+                                    Hinweis: Visual-Demo. Live-Logik & Module werden weiter ausgebaut.
+                                </div>
                             </div>
                         </div>
-                    `;
+                        `;
 
-                        L.marker([lat, lng], { icon: customIcon })
-                            .addTo(map)
-                            .bindPopup(popupContent, {
-                                closeButton: true,
-                                minWidth: 260,
-                                maxWidth: 260,
-                                className: 'custom-popup'
+                        // 1. Dibuja el marcador sin bindPopup
+                        const marker = L.marker([lat, lng], { icon: customIcon }).addTo(map);
+
+                        // 2. Crea la tarjeta flotante en el body (si no existe ya)
+                        let floatingCard = document.getElementById('floating-date-card');
+                        if (!floatingCard) {
+                            floatingCard = document.createElement('div');
+                            floatingCard.id = 'floating-date-card';
+                            document.body.appendChild(floatingCard);
+
+                            // Cierra la tarjeta si tocas el mapa de fondo
+                            map.on('click', () => {
+                                floatingCard.classList.remove('is-visible');
                             });
+                        }
+
+                        // 3. Al hacer clic en el punto, mostramos la tarjeta flotante
+                        marker.on('click', () => {
+                            // Hace que el mapa se mueva suavemente hacia el punto
+                            map.flyTo([lat, lng], map.getZoom(), { animate: true, duration: 0.5 });
+
+                            // Inyecta el contenido y un botón de cerrar propio
+                            floatingCard.innerHTML = `
+        <button class="close-floating-card">✕</button>
+        ${popupContent} 
+    `;
+
+                            // Anima la entrada
+                            floatingCard.classList.add('is-visible');
+
+                            // Funcionalidad del nuevo botón de cerrar
+                            floatingCard.querySelector('.close-floating-card').onclick = () => {
+                                floatingCard.classList.remove('is-visible');
+                            };
+                        });
 
                         markerCount++;
                     }

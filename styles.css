@@ -1676,3 +1676,276 @@ body {
 .map-card-action:hover {
     color: #fff;
 }
+
+/* =========================================
+   DISEÑO DE LA TARJETA (POPUP)
+========================================= */
+
+/* Ajustes base del contenedor de Leaflet */
+.leaflet-popup-content {
+    width: 300px !important;
+}
+
+.date-card {
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 1. Imagen superior (Hero) */
+.date-card-hero {
+    width: 100%;
+    height: 140px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px 12px 0 0;
+    position: relative;
+}
+
+.date-card-badge {
+    position: absolute;
+    bottom: 10px;
+    left: 12px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+/* 2. Cuerpo de la tarjeta */
+.date-card-body {
+    padding: 16px;
+    background: #0a0a0a;
+    border-radius: 0 0 12px 12px;
+}
+
+/* 3. Título y Rating */
+.date-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2px;
+}
+
+.date-card-title {
+    font-size: 16px;
+    font-weight: 900;
+    color: #ffffff;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+}
+
+.date-card-rating {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.date-card-rating .star {
+    color: #f5a623;
+    /* Amarillo/naranja para la estrella */
+    margin-right: 2px;
+}
+
+.date-card-rating .max-rating {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.date-card-subtitle {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 16px;
+}
+
+/* 4. Cajas de Estadísticas (Singles) */
+.date-card-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.stat-box,
+.date-card-address {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+
+.stat-label,
+.address-label {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.stat-circle {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    font-weight: 700;
+    margin-right: 8px;
+    font-size: 12px;
+}
+
+/* 5. Dirección */
+.date-card-address {
+    margin-bottom: 16px;
+}
+
+.address-value {
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+/* 6. Botones de Acción */
+.date-card-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.btn-card {
+    width: 100%;
+    padding: 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.2s ease;
+}
+
+.btn-route {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    color: #ffffff;
+}
+
+.btn-route:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.btn-save {
+    background: transparent;
+    color: #ffffff;
+}
+
+.btn-save:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* 7. Footer / Nota */
+.date-card-footer {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+    line-height: 1.4;
+}
+
+/* 8. Botón de cerrar de Leaflet (La 'X' sobre la imagen) */
+.leaflet-container a.leaflet-popup-close-button {
+    top: 12px !important;
+    right: 12px !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
+    border-radius: 50% !important;
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 14px !important;
+    font-weight: 300 !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button:hover {
+    background: rgba(0, 0, 0, 0.8) !important;
+}
+
+/* =========================================
+   TARJETA FLOTANTE (FUERA DEL MAPA)
+========================================= */
+#floating-date-card {
+    position: fixed;
+    /* La centramos en la pantalla */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -45%) scale(0.95);
+    z-index: 99999;
+    /* Por encima de todo, incluso el menú de navegación */
+
+    /* Configuración inicial oculta */
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    /* Ajustes para la tarjeta interior */
+    width: 300px;
+    border-radius: 12px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Estado Activo: Entra con rebote suave */
+#floating-date-card.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* El nuevo botón de cerrar "X" */
+.close-floating-card {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.2s ease;
+}
+
+.close-floating-card:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+/* Mantenemos el fondo del body de la tarjeta */
+.date-card-body {
+    padding: 16px;
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 0 0 12px 12px;
+}
