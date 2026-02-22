@@ -480,6 +480,45 @@
                             floatingCard.querySelector('.close-floating-card').onclick = () => {
                                 floatingCard.classList.remove('is-visible');
                             };
+
+                            // Abrir Google Maps al dar clic en "Route öffnen"
+                            const routeBtn = floatingCard.querySelector('.btn-route');
+                            if (routeBtn) {
+                                routeBtn.onclick = (e) => {
+                                    e.preventDefault();
+                                    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(title)}`;
+                                    window.open(mapsUrl, '_blank');
+                                };
+                            }
+
+                            // Botón "Merken" (Nivel 4: Web Share API)
+                            const saveBtn = floatingCard.querySelector('.btn-save');
+                            if (saveBtn) {
+                                saveBtn.onclick = async () => {
+                                    const shareData = {
+                                        title: `SNAPYOURDATE: ${title}`,
+                                        text: `¡Mira este sitio para nuestra próxima cita!: ${title} - ${description}`,
+                                        url: window.location.href
+                                    };
+
+                                    if (navigator.share) {
+                                        try {
+                                            await navigator.share(shareData);
+                                            console.log('Shared successfully');
+                                        } catch (err) {
+                                            console.log('Error sharing:', err);
+                                        }
+                                    } else {
+                                        // Fallback: Copiar al portapapeles
+                                        try {
+                                            await navigator.clipboard.writeText(`${shareData.title}\n${shareData.text}\n${shareData.url}`);
+                                            alert('¡Enlace copiado al portapapeles! (Tu navegador no soporta el menú de compartir nativo)');
+                                        } catch (err) {
+                                            alert('No se pudo compartir. Puedes copiar la URL manualmente.');
+                                        }
+                                    }
+                                };
+                            }
                         });
 
                         markerCount++;
