@@ -304,11 +304,12 @@
             scrollWheelZoom: false,
             dragging: !L.Browser.mobile, // disable dragging on mobile init to prevent scroll trap
             tap: false
-        }).setView([53.5511, 9.9937], 12);
+        }).setView([51.1657, 10.4515], 6); // 6 es el nivel de zoom ideal para ver todo el país
 
         // Standard Dark style tiles (Native visibility)
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        // USA ESTA LÍNEA (dark_nolabels)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/dark_nolabels/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap &copy; CARTO',
             subdomains: 'abcd',
             maxZoom: 19
         }).addTo(map);

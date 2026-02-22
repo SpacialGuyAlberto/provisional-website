@@ -1481,10 +1481,28 @@ body {
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: var(--shadow);
-    background: #111;
+    background-color: #02050a !important;
+    /* Azul casi negro profundo */
+    position: relative;
+    /* Necesario para el resplandor */
     z-index: 1;
     margin-top: 2rem;
     margin-bottom: 2rem;
+}
+
+#locationsMap::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    /* Degradado suavizado para que parezca luz volumétrica */
+    background: radial-gradient(circle, rgba(255, 170, 50, 0.35) 0%, rgba(80, 150, 255, 0.2) 40%, rgba(0, 0, 0, 0) 75%);
+    pointer-events: none;
+    z-index: 400;
+    mix-blend-mode: screen;
 }
 
 /* Dark mode tweaks for Leaflet popups */
@@ -1502,54 +1520,58 @@ body {
     line-height: 1.4;
 }
 
-/* Leaflet Map Customizations */
-/* Safe Neon: Simple inversion to restore visibility while keeping the dark blue theme */
-.leaflet-tile-container img,
-.leaflet-tile {
-    /* Restored visibility: Native dark tiles with subtle contrast */
-    filter: brightness(1.1) contrast(1.1) !important;
-    background: #000 !important;
+/* REEMPLAZA EL BLOQUE ANTERIOR DE .leaflet-tile-pane POR ESTE */
+
+.leaflet-tile-pane {
+    opacity: 0.8 !important;
+
+    /* El truco orgánico: 
+       - brightness(2.5): levanta las calles grises oscuras a blanco/gris claro.
+       - contrast(1.8): marca los bordes de esas calles.
+       - sepia + hue-rotate + saturate: las tiñe de azul eléctrico vibrante.
+       - blur(0.5px): suaviza las líneas para que parezcan conductos de luz. */
+    filter: brightness(2.5) contrast(1.8) sepia(100%) hue-rotate(190deg) saturate(400%) blur(0.5px);
+
+    /* LA MAGIA DEFINITIVA: Esto hace que el fondo de las imágenes del mapa se vuelva 
+       invisible y solo se impriman en pantalla las líneas brillantes de las calles */
+    mix-blend-mode: screen;
 }
+
+/* El fondo debajo debe ser negro puro para que el contraste funcione */
 
 .leaflet-container {
     background: #000 !important;
 }
 
 .custom-marker {
-    background: none;
-    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Glowing Orb Marker (Electric Neon) */
 .marker-pin {
-    width: 14px;
-    height: 14px;
-    background: #fff;
+    width: 6px;
+    height: 6px;
+    background-color: #ffffff;
     border-radius: 50%;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    margin: -7px 0 0 -7px;
-    box-shadow:
-        0 0 15px #fff,
-        0 0 30px rgba(0, 242, 255, 1),
-        0 0 60px rgba(0, 242, 255, 0.8);
-    animation: markerPulse 3s ease-in-out infinite;
+
+    /* El halo de luz azul/grisáceo */
+    box-shadow: 0 0 0 4px rgba(120, 175, 255, 0.2),
+        0 0 15px 8px rgba(120, 175, 255, 0.4);
+
+    /* Animación para que parezca "vivo" */
+    animation: pulse-glow 2s infinite alternate ease-in-out;
 }
 
-@keyframes markerPulse {
-
-    0%,
-    100% {
-        transform: scale(1);
-        opacity: 0.9;
-        box-shadow: 0 0 10px #fff, 0 0 25px rgba(0, 242, 255, 0.8), 0 0 45px rgba(0, 242, 255, 0.4);
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 0 0 4px rgba(120, 175, 255, 0.2),
+            0 0 15px 8px rgba(120, 175, 255, 0.4);
     }
 
-    50% {
-        transform: scale(1.3);
-        opacity: 1;
-        box-shadow: 0 0 15px #fff, 0 0 40px rgba(0, 242, 255, 1), 0 0 75px rgba(0, 242, 255, 0.7);
+    100% {
+        box-shadow: 0 0 0 6px rgba(120, 175, 255, 0.4), 0 0 20px 10px rgba(120, 175, 255, 0.7);
     }
 }
 
