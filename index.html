@@ -61,7 +61,7 @@
                     <i class="nav__icon fa-solid fa-pen-to-square"></i>
                 </a>
 
-                <a class="nav__link" href="#germany" data-icon="fa-solid fa-location-dot">
+                <a class="nav__link" href="#mapSection" data-icon="fa-solid fa-location-dot">
                     <span class="nav__label">Deutschland</span>
                     <i class="nav__icon fa-solid fa-location-dot"></i>
                 </a>
@@ -142,6 +142,27 @@
         <!-- LOCATIONS MAP -->
         <section class="section" id="mapSection" aria-label="Karte">
             <div class="wrap">
+                <!-- MAP FILTERS -->
+                <div class="filter-bar reveal">
+                    <div class="filter-group">
+                        <label class="filter-label">Entfernung</label>
+                        <div class="range-wrapper">
+                            <input type="range" id="distanceFilter" min="10" max="1000" value="500" step="10">
+                            <span id="distanceValue">500 km</span>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Kategorie</label>
+                        <div class="category-chips" id="categoryFilters">
+                            <button class="chip is-active" data-category="all">Alle</button>
+                            <button class="chip" data-category="BAR">Bars</button>
+                            <button class="chip" data-category="DISCO">Clubs</button>
+                            <button class="chip" data-category="RESTAURANT">Restaurants</button>
+                            <button class="chip" data-category="EVENT">Events</button>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="locationsMap"></div>
             </div>
         </section>
@@ -346,103 +367,6 @@
             </div>
         </section>
 
-        <!-- GERMANY -->
-        <section class="section" id="germany" aria-label="Deutschland" data-wm="500 LOCATIONS">
-            <div class="wrap">
-                <div class="split split--reverse">
-                    <div class="content reveal">
-                        <p class="section__kicker">Deutschland</p>
-                        <h2 class="section__title">Echtzeit‑Locations statt leere Chats.</h2>
-                        <p class="section__lead">
-                            SNAPYOURDATE funktioniert über echte Orte: Du siehst, wo gerade Leben ist —
-                            und entscheidest, wohin du gehst.
-                        </p>
-
-                        <div class="bullets">
-                            <div class="bullet"><i class="fa-solid fa-location-crosshairs"></i> Freigeschaltete
-                                Locations (Bars, Hotels,
-                                Spots)</div>
-                            <div class="bullet"> <i class="fa-solid fa-users"></i> Live‑Auslastung: wie viele sind
-                                gerade dort</div>
-                            <div class="bullet"><i class="fa-solid fa-money-bill"></i> 24h Pass (geplant): 4€</div>
-                            <div class="bullet"><i class="fa-brands fa-instagram"></i> Du kennst eine Location? Schreib
-                                uns auf Instagram.</div>
-                        </div>
-
-                        <div class="ticker reveal" aria-label="Einpersonenhaushalte Ticker">
-                            <div class="ticker__label">Einpersonenhaushalte (Mikrozensus 2024)</div>
-                            <div class="ticker__viewport">
-                                <div class="ticker__track" id="tickerTrack"></div>
-                            </div>
-                            <div class="fine tiny">
-                                Quelle: Destatis (Stand 30. Jan 2026).
-                                <a class="sourceLink"
-                                    href="https://www.destatis.de/DE/Themen/Gesellschaft-Umwelt/Bevoelkerung/Haushalte-Familien/Tabellen/1-2-privathaushalte-bundeslaender.html"
-                                    target="_blank" rel="noopener">Tabelle öffnen</a>
-                            </div>
-                        </div>
-
-                        <div class="ctaRow">
-                            <a class="btn btn--primary" href="#signup">Eintragen</a>
-                            <a class="btn btn--ghost" href="https://instagram.com/" target="_blank" rel="noopener"><i
-                                    class="fa-brands fa-instagram"></i> Instagram öffnen</a>
-                        </div>
-                    </div>
-
-                    <div class="mapCard reveal" aria-label="Deutschlandkarte Demo">
-                        <div class="mapCard__badge">Live‑Locations (Visual)</div>
-                        <svg class="map" viewBox="0 0 520 640" aria-hidden="true">
-                            <defs>
-                                <radialGradient id="g" cx="50%" cy="40%" r="70%">
-                                    <stop offset="0%" stop-color="rgba(255, 160, 40, 0.45)" />
-                                    <stop offset="30%" stop-color="rgba(80, 140, 255, 0.28)" />
-                                    <stop offset="70%" stop-color="rgba(20, 30, 60, 0.15)" />
-                                    <stop offset="100%" stop-color="rgba(0, 0, 0, 0)" />
-                                </radialGradient>
-                            </defs>
-
-                            <path class="map__shape" d="M270 40
-                   C315 55 350 90 365 135
-                   C385 200 430 225 440 285
-                   C450 340 410 380 410 430
-                   C410 490 365 535 320 565
-                   C275 595 240 605 200 595
-                   C145 580 115 540 105 485
-                   C92 415 60 380 75 320
-                   C90 260 120 230 125 185
-                   C135 110 185 55 240 45
-                   C252 43 260 41 270 40 Z" />
-                            <circle class="map__glow" cx="260" cy="260" r="210" fill="url(#g)" />
-
-                            <g class="dot dot--a">
-                                <circle class="dot__core" cx="215" cy="255" r="5"></circle>
-                                <circle class="dot__pulse" cx="215" cy="255" r="12"></circle>
-                            </g>
-                            <g class="dot dot--b">
-                                <circle class="dot__core" cx="290" cy="210" r="5"></circle>
-                                <circle class="dot__pulse" cx="290" cy="210" r="12"></circle>
-                            </g>
-                            <g class="dot dot--c">
-                                <circle class="dot__core" cx="260" cy="340" r="5"></circle>
-                                <circle class="dot__pulse" cx="260" cy="340" r="12"></circle>
-                            </g>
-                            <g class="dot dot--d">
-                                <circle class="dot__core" cx="220" cy="430" r="5"></circle>
-                                <circle class="dot__pulse" cx="220" cy="430" r="12"></circle>
-                            </g>
-                            <g class="dot dot--e">
-                                <circle class="dot__core" cx="330" cy="380" r="5"></circle>
-                                <circle class="dot__pulse" cx="330" cy="380" r="12"></circle>
-                            </g>
-                        </svg>
-
-                        <div class="mapCard__legend">
-                            <span class="legendDot"></span> Punkt = aktive Location (Visual)
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <!-- FOOTER -->
         <footer class="footer" aria-label="Footer">

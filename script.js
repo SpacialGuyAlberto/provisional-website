@@ -299,234 +299,207 @@
         const mapContainer = document.getElementById("locationsMap");
         if (!mapContainer || !window.L) return;
 
-        // Center on Hamburg (where the promotion is)
+        // UI Elements for filters
+        const distanceFilter = document.getElementById("distanceFilter");
+        const distanceValue = document.getElementById("distanceValue");
+        const categoryFilters = document.getElementById("categoryFilters");
+        const categoryButtons = categoryFilters?.querySelectorAll(".chip");
+
+        let allLocations = [];
+        let activeMarkers = [];
+        let userLatLng = null;
+
         const map = L.map('locationsMap', {
             scrollWheelZoom: true,
-            dragging: !L.Browser.mobile, // disable dragging on mobile init to prevent scroll trap
+            dragging: !L.Browser.mobile,
             tap: false
-        }).setView([51.1657, 10.4515], 6); // 6 es el nivel de zoom ideal para ver todo el país
+        }).setView([51.1657, 10.4515], 6);
 
-        // Standard Dark style tiles (Native visibility)
-        // USA ESTA LÍNEA (dark_nolabels)
         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/dark_nolabels/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; OpenStreetMap &copy; CARTO',
             subdomains: 'abcd',
             maxZoom: 19
         }).addTo(map);
 
-        // --- BOTÓN DE RE-CENTRAR ---
         const recenterBtn = document.createElement('button');
         recenterBtn.id = 'recenter-map-btn';
-        recenterBtn.innerHTML = '🎯 <span>Mi ubicación</span>';
+        recenterBtn.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i> <span>Mi ubicación</span>';
         recenterBtn.title = 'Centrar en mi ubicación';
         mapContainer.appendChild(recenterBtn);
 
+        const customIcon = (category) => L.divIcon({
+            className: `custom-marker marker-${category.toLowerCase()}`,
+            html: `<div class="marker-pin"></div>`,
+            iconSize: [20, 20],
+            iconAnchor: [10, 10]
+        });
+
+        const getCategory = (loc) => {
+            const title = ((loc.presentationTitle?.de) || (loc.presentationTitle?.en) || loc.eventOrganizer || "").toUpperCase();
+            const desc = (loc.presentationDescription?.[0] || "").toUpperCase();
+
+            if (title.includes("BAR") || title.includes("PUB") || desc.includes("BAR") || desc.includes("PUB")) return "BAR";
+            if (title.includes("CLUB") || title.includes("DISCO") || desc.includes("CLUB") || desc.includes("DISCO")) return "DISCO";
+            if (title.includes("RESTAURANT") || title.includes("DINING") || desc.includes("RESTAURANT") || desc.includes("DINING")) return "RESTAURANT";
+            return "EVENT";
+        };
+
+        const updateMarkers = () => {
+            // Remove existing markers
+            activeMarkers.forEach(m => map.removeLayer(m));
+            activeMarkers = [];
+
+            const maxDistance = parseInt(distanceFilter?.value || 100);
+            const activeCategory = categoryFilters?.querySelector(".chip.is-active")?.dataset.category || "all";
+
+            const filtered = allLocations.filter(loc => {
+                const geo = loc.presentationLocation?.geopoint;
+                if (!geo) return false;
+
+                const lat = geo.latitude || geo._latitude;
+                const lng = geo.longitude || geo._longitude;
+                const locLatLng = L.latLng(lat, lng);
+
+                // Filter by distance if user location is available
+                if (userLatLng) {
+                    const dist = userLatLng.distanceTo(locLatLng) / 1000;
+                    if (dist > maxDistance) return false;
+                } else if (maxDistance < 500) {
+                    // If no user location and slider is at a low value, 
+                    // we still show points that are reasonably "visible" in the initial view
+                    // Or we can just let them through if maxDistance is high enough.
+                }
+
+                // Filter by category
+                const cat = getCategory(loc);
+                if (activeCategory !== "all" && cat !== activeCategory) return false;
+
+                return true;
+            });
+
+            filtered.forEach(loc => {
+                const geo = loc.presentationLocation.geopoint;
+                const lat = geo.latitude || geo._latitude;
+                const lng = geo.longitude || geo._longitude;
+                const category = getCategory(loc);
+                const title = (loc.presentationTitle?.de) || (loc.presentationTitle?.en) || loc.eventOrganizer || "Event Location";
+
+                // Marker with dynamic category style
+                const marker = L.marker([lat, lng], { icon: customIcon(category) }).addTo(map);
+                activeMarkers.push(marker);
+
+                // Reuse existing popup logic
+                marker.on('click', () => {
+                    map.flyTo([lat, lng], map.getZoom(), { animate: true, duration: 0.5 });
+                    showFloatingCard(loc, category, title, lat, lng);
+                });
+            });
+        };
+
+        const showFloatingCard = (loc, category, title, lat, lng) => {
+            let floatingCard = document.getElementById('floating-date-card');
+            if (!floatingCard) {
+                floatingCard = document.createElement('div');
+                floatingCard.id = 'floating-date-card';
+                mapContainer.appendChild(floatingCard);
+                map.on('click', () => floatingCard.classList.remove('is-visible'));
+            }
+
+            let imageUrl = loc.presentationImageUrls?.[0] || loc.eventLogoPath || 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=600&auto=format&fit=crop';
+            let description = loc.presentationDescription?.[0] || (loc.cityDocId ? "Auf der Karte entdecken" : "Event Location");
+
+            floatingCard.innerHTML = `
+                <button class="close-floating-card">✕</button>
+                <div class="date-card">
+                    <div class="date-card-hero" style="background-image: url('${imageUrl}')">
+                        <span class="date-card-badge">${category}</span>
+                    </div>
+                    <div class="date-card-body">
+                        <div class="date-card-header">
+                            <h3 class="date-card-title">${title}</h3>
+                            <div class="date-card-rating">
+                                <span class="star">★</span> 4.6 <span class="max-rating">/5</span>
+                            </div>
+                        </div>
+                        <div class="date-card-subtitle">${description}</div>
+                        <div class="date-card-stats">
+                            <div class="stat-box">
+                                <span class="stat-label">SINGLES</span>
+                                <div class="stat-value"><span class="stat-circle">9</span> jetzt</div>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-label">Ø</span>
+                                <div class="stat-value"><span class="stat-circle">16</span> typisch</div>
+                            </div>
+                        </div>
+                        <div class="date-card-actions">
+                            <button class="btn-card btn-route">Route öffnen</button>
+                            <button class="btn-card btn-save">Merken</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            floatingCard.classList.add('is-visible');
+            floatingCard.querySelector('.close-floating-card').onclick = () => floatingCard.classList.remove('is-visible');
+
+            floatingCard.querySelector('.btn-route').onclick = () => {
+                window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(title)}`, '_blank');
+            };
+
+            floatingCard.querySelector('.btn-save').onclick = async () => {
+                const shareData = {
+                    title: `SNAPYOURDATE: ${title}`,
+                    text: `Check out this spot: ${title}\nhttps://www.google.com/maps/search/?api=1&query=${encodeURIComponent(title)}`,
+                    url: window.location.href
+                };
+                if (navigator.share) await navigator.share(shareData).catch(() => { });
+                else {
+                    await navigator.clipboard.writeText(`${shareData.title}\n${shareData.text}`).then(() => alert('Link copied!'));
+                }
+            };
+        };
+
         const handleGeolocation = () => {
-            console.log("Checking geolocation availability...");
             if (navigator.geolocation) {
                 recenterBtn.classList.add('is-loading');
                 navigator.geolocation.getCurrentPosition(
                     (pos) => {
-                        console.log("Geolocation granted:", pos.coords);
                         const { latitude, longitude } = pos.coords;
-                        map.flyTo([latitude, longitude], 15, {
-                            duration: 2,
-                            easeLinearity: 0.25
-                        });
+                        userLatLng = L.latLng(latitude, longitude);
+                        map.flyTo([latitude, longitude], 13);
                         recenterBtn.classList.remove('is-loading');
+                        updateMarkers(); // Update markers relative to new position
                     },
-                    (err) => {
-                        console.warn("Geolocation error or denied:", err.code, err.message);
+                    () => {
                         recenterBtn.classList.remove('is-loading');
-                        alert("No se pudo obtener tu ubicación. Asegúrate de dar permisos en el navegador.");
+                        alert("Geolocation failed.");
                     },
-                    { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+                    { enableHighAccuracy: true, timeout: 5000 }
                 );
-            } else {
-                console.warn("Geolocation API not supported by this browser.");
             }
         };
 
         recenterBtn.addEventListener('click', handleGeolocation);
 
-        // Geolocation inicial (opcional, si quieres que empiece ahí)
-        // handleGeolocation();
+        // Filter event listeners
+        distanceFilter?.addEventListener("input", (e) => {
+            distanceValue.textContent = `${e.target.value} km`;
+            updateMarkers();
+        });
+
+        categoryButtons?.forEach(btn => {
+            btn.addEventListener("click", () => {
+                categoryButtons.forEach(b => b.classList.remove("is-active"));
+                btn.classList.add("is-active");
+                updateMarkers();
+            });
+        });
 
         try {
             const res = await fetch('/api/locations');
             if (!res.ok) throw new Error("Failed to fetch locations");
-            const locations = await res.json();
-            console.log(`Fetched ${locations.length} locations from API.`);
-
-            // Custom glowing marker icon
-            const customIcon = L.divIcon({
-                className: 'custom-marker',
-                html: '<div class="marker-pin"></div>',
-                iconSize: [20, 20],
-                iconAnchor: [10, 10]
-            });
-
-            // TEST MARKER in Hamburg to verify style
-            L.marker([53.5511, 9.9937], { icon: customIcon })
-                .addTo(map)
-                .bindPopup('<div class="map-card"><div class="map-card-content"><div class="map-card-title">Hamburg Promo</div><p class="map-card-description">Test marker for neon design.</p></div></div>');
-
-            let markerCount = 0;
-            locations.forEach(loc => {
-                const geo = loc.presentationLocation?.geopoint;
-                console.log("Processing location:", loc.id, geo);
-
-                if (geo) {
-                    const lat = geo.latitude || geo._latitude;
-                    const lng = geo.longitude || geo._longitude;
-
-                    if (lat !== undefined && lng !== undefined) {
-                        const title = (loc.presentationTitle?.de) || (loc.presentationTitle?.en) || loc.eventOrganizer || "Event Location";
-
-                        // Image Handling
-                        let imageUrl = '';
-                        if (loc.presentationImageUrls && loc.presentationImageUrls.length > 0) {
-                            imageUrl = loc.presentationImageUrls[0];
-                        } else if (loc.eventLogoPath) {
-                            imageUrl = loc.eventLogoPath;
-                        }
-
-                        // Fallback image if empty
-                        if (!imageUrl) {
-                            imageUrl = 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=600&auto=format&fit=crop';
-                        }
-
-                        // Description / Subtitle
-                        let description = "Event Location";
-                        if (loc.presentationDescription && loc.presentationDescription.length > 0) {
-                            description = loc.presentationDescription[0];
-                        } else if (loc.cityDocId) {
-                            description = "Auf der Karte entdecken";
-                        }
-
-                        const popupContent = `
-                        <div class="date-card">
-                            <div class="date-card-hero" style="background-image: url('${imageUrl}')">
-                                <span class="date-card-badge">RESTAURANT</span>
-                            </div>
-                            <div class="date-card-body">
-                                <div class="date-card-header">
-                                    <h3 class="date-card-title">${title}</h3>
-                                    <div class="date-card-rating">
-                                        <span class="star">★</span> 4.6 <span class="max-rating">/5</span>
-                                    </div>
-                                </div>
-                                <div class="date-card-subtitle">${description}</div>
-
-                                <div class="date-card-stats">
-                                    <div class="stat-box">
-                                        <span class="stat-label">SINGLES</span>
-                                        <div class="stat-value"><span class="stat-circle">9</span> jetzt</div>
-                                    </div>
-                                    <div class="stat-box">
-                                        <span class="stat-label">Ø</span>
-                                        <div class="stat-value"><span class="stat-circle">16</span> typisch</div>
-                                    </div>
-                                </div>
-
-                                <div class="date-card-address">
-                                    <span class="address-label">ADRESSE</span>
-                                    <div class="address-value">Prenzlauer Berg • Berlin</div>
-                                </div>
-
-                                <div class="date-card-actions">
-                                    <button class="btn-card btn-route">Route öffnen</button>
-                                    <button class="btn-card btn-save">Merken</button>
-                                </div>
-
-                                <div class="date-card-footer">
-                                    Hinweis: Visual-Demo. Live-Logik & Module werden weiter ausgebaut.
-                                </div>
-                            </div>
-                        </div>
-                        `;
-
-                        // 1. Dibuja el marcador sin bindPopup
-                        const marker = L.marker([lat, lng], { icon: customIcon }).addTo(map);
-
-                        // 2. Crea la tarjeta flotante en el body (si no existe ya)
-                        let floatingCard = document.getElementById('floating-date-card');
-                        if (!floatingCard) {
-                            floatingCard = document.createElement('div');
-                            floatingCard.id = 'floating-date-card';
-                            mapContainer.appendChild(floatingCard); // Dentro del mapa
-
-                            // Cierra la tarjeta si tocas el mapa de fondo
-                            map.on('click', () => {
-                                floatingCard.classList.remove('is-visible');
-                            });
-                        }
-
-                        // 3. Al hacer clic en el punto, mostramos la tarjeta flotante
-                        marker.on('click', () => {
-                            // Hace que el mapa se mueva suavemente hacia el punto
-                            map.flyTo([lat, lng], map.getZoom(), { animate: true, duration: 0.5 });
-
-                            // Inyecta el contenido y un botón de cerrar propio
-                            floatingCard.innerHTML = `
-        <button class="close-floating-card">✕</button>
-        ${popupContent} 
-    `;
-
-                            // Anima la entrada
-                            floatingCard.classList.add('is-visible');
-
-                            // Funcionalidad del nuevo botón de cerrar
-                            floatingCard.querySelector('.close-floating-card').onclick = () => {
-                                floatingCard.classList.remove('is-visible');
-                            };
-
-                            // Abrir Google Maps al dar clic en "Route öffnen"
-                            const routeBtn = floatingCard.querySelector('.btn-route');
-                            if (routeBtn) {
-                                routeBtn.onclick = (e) => {
-                                    e.preventDefault();
-                                    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(title)}`;
-                                    window.open(mapsUrl, '_blank');
-                                };
-                            }
-
-                            // Botón "Merken" (Nivel 4: Web Share API)
-                            const saveBtn = floatingCard.querySelector('.btn-save');
-                            if (saveBtn) {
-                                saveBtn.onclick = async () => {
-                                    const shareData = {
-                                        title: `SNAPYOURDATE: ${title}`,
-                                        text: `¡Mira este sitio para nuestra próxima cita!: ${title} - ${description}`,
-                                        url: window.location.href
-                                    };
-
-                                    if (navigator.share) {
-                                        try {
-                                            await navigator.share(shareData);
-                                            console.log('Shared successfully');
-                                        } catch (err) {
-                                            console.log('Error sharing:', err);
-                                        }
-                                    } else {
-                                        // Fallback: Copiar al portapapeles
-                                        try {
-                                            await navigator.clipboard.writeText(`${shareData.title}\n${shareData.text}\n${shareData.url}`);
-                                            alert('¡Enlace copiado al portapapeles! (Tu navegador no soporta el menú de compartir nativo)');
-                                        } catch (err) {
-                                            alert('No se pudo compartir. Puedes copiar la URL manualmente.');
-                                        }
-                                    }
-                                };
-                            }
-                        });
-
-                        markerCount++;
-                    }
-                }
-            });
-            console.log(`Map initialized with ${markerCount} locations.`);
-
+            allLocations = await res.json();
+            updateMarkers();
         } catch (err) {
             console.error("Map error:", err);
         }

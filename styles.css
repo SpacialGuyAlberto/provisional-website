@@ -1474,6 +1474,97 @@ body {
     }
 }
 
+/* ===== Filter Bar ===== */
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 24px;
+    padding: 20px;
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    box-shadow: var(--shadowSoft);
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filter-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 600;
+}
+
+.range-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#distanceFilter {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 160px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    outline: none;
+}
+
+#distanceFilter::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    transition: transform 0.2s ease;
+}
+
+#distanceFilter::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+#distanceValue {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    min-width: 50px;
+}
+
+.category-chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.category-chips .chip {
+    cursor: pointer;
+    transition: all 0.22s ease;
+    user-select: none;
+}
+
+.category-chips .chip:hover {
+    border-color: rgba(120, 175, 255, 0.4);
+    background: rgba(120, 175, 255, 0.1);
+}
+
+.category-chips .chip.is-active {
+    background: rgba(120, 175, 255, 0.2);
+    border-color: rgba(120, 175, 255, 0.6);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(120, 175, 255, 0.2);
+}
+
 /* ===== Map ===== */
 #locationsMap {
     width: 100%;
@@ -1573,27 +1664,46 @@ body {
 
 /* Glowing Orb Marker (Electric Neon) */
 .marker-pin {
-    width: 6px;
-    height: 6px;
+    width: 12px;
+    height: 12px;
     background-color: #ffffff;
     border-radius: 50%;
 
-    /* El halo de luz azul/grisáceo */
+    /* El halo de luz azul/grisáceo por defecto */
     box-shadow: 0 0 0 4px rgba(120, 175, 255, 0.2),
-        0 0 15px 8px rgba(120, 175, 255, 0.4);
+        0 0 20px 10px rgba(120, 175, 255, 0.5);
 
     /* Animación para que parezca "vivo" */
     animation: pulse-glow 2s infinite alternate ease-in-out;
+    border: 2px solid #fff;
+}
+
+/* Category Specific Glows */
+.marker-bar .marker-pin {
+    box-shadow: 0 0 0 4px rgba(255, 100, 100, 0.2), 0 0 20px 10px rgba(255, 100, 100, 0.5);
+}
+
+.marker-disco .marker-pin {
+    box-shadow: 0 0 0 4px rgba(200, 100, 255, 0.2), 0 0 20px 10px rgba(200, 100, 255, 0.5);
+}
+
+.marker-restaurant .marker-pin {
+    box-shadow: 0 0 0 4px rgba(100, 255, 150, 0.2), 0 0 20px 10px rgba(100, 255, 150, 0.5);
+}
+
+.marker-event .marker-pin {
+    box-shadow: 0 0 0 4px rgba(255, 200, 50, 0.2), 0 0 20px 10px rgba(255, 200, 50, 0.5);
 }
 
 @keyframes pulse-glow {
     0% {
-        box-shadow: 0 0 0 4px rgba(120, 175, 255, 0.2),
-            0 0 15px 8px rgba(120, 175, 255, 0.4);
+        transform: scale(1);
+        opacity: 0.9;
     }
 
     100% {
-        box-shadow: 0 0 0 6px rgba(120, 175, 255, 0.4), 0 0 20px 10px rgba(120, 175, 255, 0.7);
+        transform: scale(1.15);
+        opacity: 1;
     }
 }
 
