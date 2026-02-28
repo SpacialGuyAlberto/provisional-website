@@ -144,6 +144,9 @@
     }
 
     /* ---------------- Founder Video Manager ---------------- */
+    /* TODO: Diesen Block einkommentieren, wenn das Video bereit ist.
+       Auch das Element <video id="founderVideo"> in index.html (Sektion #founder) einkommentieren.
+
     const founderVideo = $("#founderVideo");
     if (founderVideo) {
         const desktopSrc = "assets/istockphoto-514978584-640_adpp_is.mp4";
@@ -179,6 +182,7 @@
 
         videoObserver.observe(founderVideo);
     }
+    */
 
     /* ---------------- Countdown ---------------- */
     const launch = new Date(LAUNCH_ISO).getTime();
@@ -323,8 +327,8 @@
 
         const recenterBtn = document.createElement('button');
         recenterBtn.id = 'recenter-map-btn';
-        recenterBtn.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i> <span>Mi ubicación</span>';
-        recenterBtn.title = 'Centrar en mi ubicación';
+        recenterBtn.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i> <span>Mein Standort</span>';
+        recenterBtn.title = 'Auf meinen Standort zentrieren';
         mapContainer.appendChild(recenterBtn);
 
         const customIcon = (category) => L.divIcon({
@@ -454,7 +458,7 @@
                 };
                 if (navigator.share) await navigator.share(shareData).catch(() => { });
                 else {
-                    await navigator.clipboard.writeText(`${shareData.title}\n${shareData.text}`).then(() => alert('Link copied!'));
+                    await navigator.clipboard.writeText(`${shareData.title}\n${shareData.text}`).then(() => alert('Link kopiert!'));
                 }
             };
         };
@@ -472,7 +476,7 @@
                     },
                     () => {
                         recenterBtn.classList.remove('is-loading');
-                        alert("Geolocation failed.");
+                        alert("Standortbestimmung fehlgeschlagen.");
                     },
                     { enableHighAccuracy: true, timeout: 5000 }
                 );

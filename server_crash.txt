@@ -1,0 +1,20 @@
+﻿[dotenv@17.2.4] injecting env (3) from .env -- tip: ­ƒöÉ prevent committing .env to code: https://dotenvx.com/precommit
+Server running on http://localhost:3001
+Email server connection error: Error: Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-483bd7507adsm326051005e9.9 - gsmtp
+    at SMTPConnection._formatError (C:\Users\LuisAlberto\Documents\personal\provisional-website\node_modules\nodemailer\lib\smtp-connection\index.js:912:19)
+    at SMTPConnection._actionAUTHComplete (C:\Users\LuisAlberto\Documents\personal\provisional-website\node_modules\nodemailer\lib\smtp-connection\index.js:1722:34)
+    at SMTPConnection.<anonymous> (C:\Users\LuisAlberto\Documents\personal\provisional-website\node_modules\nodemailer\lib\smtp-connection\index.js:651:26)
+    at SMTPConnection._processResponse (C:\Users\LuisAlberto\Documents\personal\provisional-website\node_modules\nodemailer\lib\smtp-connection\index.js:1098:20)
+    at SMTPConnection._onData (C:\Users\LuisAlberto\Documents\personal\provisional-website\node_modules\nodemailer\lib\smtp-connection\index.js:872:14)
+    at SMTPConnection._onSocketData (C:\Users\LuisAlberto\Documents\personal\provisional-website\node_modules\nodemailer\lib\smtp-connection\index.js:196:44)
+    at TLSSocket.emit (node:events:508:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5) {
+  code: 'EAUTH',
+  response: '535-5.7.8 Username and Password not accepted. For more information, go to\n' +
+    '535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-483bd7507adsm326051005e9.9 - gsmtp',
+  responseCode: 535,
+  command: 'AUTH PLAIN'
+}

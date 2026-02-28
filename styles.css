@@ -408,11 +408,10 @@ body {
 }
 
 .hero__row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    display: flex;
+    justify-content: center;
     margin: 18px auto 0;
-    max-width: 900px;
+    max-width: 480px;
 }
 
 /* Buttons */
