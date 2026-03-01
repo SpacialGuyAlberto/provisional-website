@@ -83,10 +83,7 @@ body {
     pointer-events: none;
     opacity: var(--bgOverlayOpacity);
     transition: opacity 0.4s ease;
-    background: radial-gradient(1600px 1100px at 15% 10%,
-            rgba(255, 0, 255, 0.35),
-            transparent 70%),
-        linear-gradient(180deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.98));
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.95));
 }
 
 /* “Gold / wood-ish” pattern that fades in after hero */
@@ -96,13 +93,7 @@ body {
     pointer-events: none;
     opacity: var(--bgPatternOpacity);
     transition: opacity 0.4s ease;
-    background: radial-gradient(1300px 900px at 35% 30%,
-            rgba(255, 0, 255, 0.35),
-            transparent 75%),
-        repeating-linear-gradient(115deg,
-            rgba(255, 0, 255, 0.08) 0 1px,
-            transparent 1px 24px),
-        linear-gradient(180deg, transparent, #000);
+    background: linear-gradient(180deg, transparent, #000);
 }
 
 /* ===== Page ===== */
@@ -357,11 +348,11 @@ body {
     font-weight: 950;
     /* HEAVIER */
 
-    /* Gradient Text Dark Magenta */
-    background: linear-gradient(180deg, #3d003d 0%, #d900d9 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    /* Soft Bone White Color */
+    color: #f9f8f4;
+    -webkit-text-fill-color: initial;
+    background: none;
+    filter: drop-shadow(0 2px 15px rgba(0, 0, 0, 0.2));
     filter: drop-shadow(0 2px 10px rgba(255, 0, 255, 0.1));
 }
 
