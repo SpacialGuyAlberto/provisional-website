@@ -96,6 +96,94 @@ body {
     background: linear-gradient(180deg, transparent, #000);
 }
 
+/* ===== Vector Background ===== */
+.bg__vectors {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+    opacity: 1;
+}
+
+/* ===== SVG Neon Streaks ===== */
+.neon-streaks {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Animated SVG lines */
+.neon-line {
+    animation: streakPulse 6s ease-in-out infinite;
+    transform-origin: center center;
+}
+
+.neon-line--1 {
+    animation-delay: 0s;
+}
+
+.neon-line--2 {
+    animation-delay: 1.2s;
+    animation-duration: 4s;
+}
+
+.neon-line--3 {
+    animation-delay: 2.5s;
+    animation-duration: 8s;
+}
+
+.neon-line--4 {
+    animation-delay: 0.8s;
+    animation-duration: 10s;
+}
+
+.neon-band {
+    animation: bandBreath 12s ease-in-out infinite alternate;
+    transform-origin: center center;
+}
+
+.neon-tri {
+    animation: triPulse 16s ease-in-out infinite alternate;
+}
+
+.neon-tri--2 {
+    animation-delay: 4s;
+}
+
+@keyframes streakPulse {
+
+    0%,
+    100% {
+        opacity: 0.8;
+    }
+
+    50% {
+        opacity: 0.25;
+    }
+}
+
+@keyframes bandBreath {
+    0% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 0.15;
+    }
+}
+
+@keyframes triPulse {
+    0% {
+        opacity: 0.35;
+    }
+
+    100% {
+        opacity: 0.08;
+    }
+}
+
 /* ===== Page ===== */
 .page {
     position: relative;
