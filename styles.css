@@ -1754,13 +1754,13 @@ body {
 /* REEMPLAZA EL BLOQUE ANTERIOR DE .leaflet-tile-pane POR ESTE */
 
 .leaflet-tile-pane {
-    opacity: 0.85 !important;
-    filter: saturate(0.5) brightness(0.6) contrast(0.9) hue-rotate(-10deg) !important;
-    mix-blend-mode: luminosity !important;
+    opacity: 0.75 !important;
+    filter: sepia(1) hue-rotate(280deg) saturate(1.4) brightness(0.55) contrast(0.85) !important;
+    mix-blend-mode: screen !important;
 }
 
 .leaflet-container {
-    background: #0d0f14 !important;
+    background: #0a020a !important;
 }
 
 .custom-marker {
