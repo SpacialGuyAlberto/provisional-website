@@ -78,7 +78,7 @@ app.post('/api/signup', async (req, res) => {
                 <div style="font-family: sans-serif; color: #111;">
                     <h1>Willkommen bei SNAPYOURDATE!</h1>
                     <p>Danke für deine Anmeldung. Du bist auf der Liste.</p>
-                    <p><strong>Wir melden uns, sobald es losgeht (15. März 2026).</strong></p>
+                    <p><strong>Wir melden uns, sobald es losgeht (15. April 2026).</strong></p>
                     <br>
                     <p>Folge uns in der Zwischenzeit auf Instagram, um nichts zu verpassen.</p>
                     <p>Dein SNAPYOURDATE Team.</p>

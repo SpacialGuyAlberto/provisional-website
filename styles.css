@@ -23,6 +23,10 @@
     --bgImgOpacity: 1;
     --bgOverlayOpacity: 0.85;
     --bgPatternOpacity: 0.25;
+
+    /* Gradients */
+    --magentaGradient: linear-gradient(135deg, #d900d9, #ff00ff);
+    --solarGradient: linear-gradient(135deg, #ff8c00, #ff0080);
 }
 
 * {
@@ -1910,33 +1914,35 @@ body {
 ========================================= */
 #recenter-map-btn {
     position: absolute;
-    bottom: 20px;
-    right: 20px;
+    bottom: 24px;
+    right: 24px;
     z-index: 500;
     /* Sobre el mapa y el resplandor central */
 
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--magentaGradient);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.9);
-    color: var(--text);
-    padding: 10px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: #fff !important;
+    /* Force white text */
+    padding: 12px 18px;
     border-radius: 999px;
-    font-size: 13px;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 800;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 8px;
-    transition: all 0.2s ease;
-    box-shadow: 0 8px 25px rgba(180, 0, 180, 0.1);
+    gap: 10px;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 0, 255, 0.3) inset;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 #recenter-map-btn:hover {
-    background: rgba(255, 0, 255, 0.15);
-    border-color: rgba(255, 50, 255, 0.5);
-    transform: translateY(-2px);
-    box-shadow: 0 0 15px var(--magentaGlow);
+    background: var(--magentaGradient);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(255, 0, 255, 0.4), 0 0 20px var(--magentaGlow);
 }
 
 #recenter-map-btn.is-loading {

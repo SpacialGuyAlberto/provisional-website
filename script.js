@@ -1,6 +1,6 @@
 (() => {
     /* ---------------- SETTINGS ---------------- */
-    const LAUNCH_ISO = "2026-03-15T00:00:00+01:00"; // Europe/Berlin
+    const LAUNCH_ISO = "2026-04-15T00:00:00+02:00"; // Europe/Berlin (DST)
     const INSTAGRAM_URL = "https://instagram.com/"; // TODO: set real profile
     // Destatis: Haushalte nach Haushaltsgröße, Bundesländer, Jahr 2024, Stand 30. Jan 2026.
     // Values are "Einpersonenhaushalte" in 1,000 from Destatis table; we render as absolute.
