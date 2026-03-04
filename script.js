@@ -298,6 +298,14 @@
             }
         }
     });
+    /* ---------------- Store Button Alerts ---------------- */
+    const storeBtns = $$(".store-btn");
+    storeBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            alert("Vielen Dank für dein Interesse! 🚀\n\nSNAPYOURDATE wird pünktlich zum Launch am 15. April 2026 in den App Stores verfügbar sein.");
+        });
+    });
+
     /* ---------------- Map & Locations ---------------- */
     const initMap = async () => {
         const mapContainer = document.getElementById("locationsMap");
