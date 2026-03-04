@@ -1,0 +1,86 @@
+[debug] [2026-03-03T20:48:35.587Z] ----------------------------------------------------------------------
+[debug] [2026-03-03T20:48:35.590Z] Command:       C:\nvm4w\nodejs\node.exe C:\Users\LuisAlberto\Documents\personal\provisional-website\node_modules\firebase-tools\lib\bin\firebase.js projects:list
+[debug] [2026-03-03T20:48:35.590Z] CLI Version:   15.8.0
+[debug] [2026-03-03T20:48:35.590Z] Platform:      win32
+[debug] [2026-03-03T20:48:35.590Z] Node Version:  v20.19.1
+[debug] [2026-03-03T20:48:35.590Z] Time:          Tue Mar 03 2026 21:48:35 GMT+0100 (Mitteleuropäische Normalzeit)
+[debug] [2026-03-03T20:48:35.590Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-03T20:48:35.766Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-03T20:48:35.766Z] > authorizing via signed-in user (info@snapyourdate.com)
+[debug] [2026-03-03T20:48:35.769Z] Checked if tokens are valid: false, expires at: 1772368726403
+[debug] [2026-03-03T20:48:35.770Z] Checked if tokens are valid: false, expires at: 1772368726403
+[debug] [2026-03-03T20:48:35.770Z] > refreshing access token with scopes: []
+[debug] [2026-03-03T20:48:35.771Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-03-03T20:48:35.771Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-03-03T20:48:35.926Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 400
+[debug] [2026-03-03T20:48:35.926Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[error] Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+[error] Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+[debug] [2026-03-03T20:48:35.927Z] Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+[debug] [2026-03-03T20:48:36.000Z] FirebaseError: Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+    at invalidCredentialError (C:\Users\LuisAlberto\Documents\personal\provisional-website\node_modules\firebase-tools\lib\auth.js:177:12)
+    at refreshTokens (C:\Users\LuisAlberto\Documents\personal\provisional-website\node_modules\firebase-tools\lib\auth.js:590:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getAccessToken (C:\Users\LuisAlberto\Documents\personal\provisional-website\node_modules\firebase-tools\lib\apiv2.js:49:18)
+    at async Client.addAuthHeader (C:\Users\LuisAlberto\Documents\personal\provisional-website\node_modules\firebase-tools\lib\apiv2.js:179:21)
+    at async Client.request (C:\Users\LuisAlberto\Documents\personal\provisional-website\node_modules\firebase-tools\lib\apiv2.js:126:34)
+    at async getProjectPage (C:\Users\LuisAlberto\Documents\personal\provisional-website\node_modules\firebase-tools\lib\management\projects.js:287:17)
+    at async getFirebaseProjectPage (C:\Users\LuisAlberto\Documents\personal\provisional-website\node_modules\firebase-tools\lib\management\projects.js:304:23)
+    at async listFirebaseProjects (C:\Users\LuisAlberto\Documents\personal\provisional-website\node_modules\firebase-tools\lib\management\projects.js:333:29)
+    at async Command.actionFn (C:\Users\LuisAlberto\Documents\personal\provisional-website\node_modules\firebase-tools\lib\commands\projects-list.js:51:20)
+[error] 
+[error] Error: Failed to list Firebase projects. See firebase-debug.log for more info.
+[debug] [2026-03-03T20:52:09.612Z] ----------------------------------------------------------------------
+[debug] [2026-03-03T20:52:09.613Z] Command:       C:\nvm4w\nodejs\node.exe C:\Users\LuisAlberto\Documents\personal\provisional-website\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting --project manifest-life-487508-k5
+[debug] [2026-03-03T20:52:09.614Z] CLI Version:   15.8.0
+[debug] [2026-03-03T20:52:09.614Z] Platform:      win32
+[debug] [2026-03-03T20:52:09.614Z] Node Version:  v20.19.1
+[debug] [2026-03-03T20:52:09.614Z] Time:          Tue Mar 03 2026 21:52:09 GMT+0100 (Mitteleuropäische Normalzeit)
+[debug] [2026-03-03T20:52:09.614Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-03T20:52:10.856Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-03T20:52:10.856Z] > authorizing via signed-in user (info@snapyourdate.com)
+[debug] [2026-03-03T20:52:10.856Z] [iam] checking project manifest-life-487508-k5 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-03-03T20:52:10.857Z] Checked if tokens are valid: false, expires at: 1772368726403
+[debug] [2026-03-03T20:52:10.857Z] Checked if tokens are valid: false, expires at: 1772368726403
+[debug] [2026-03-03T20:52:10.858Z] > refreshing access token with scopes: []
+[debug] [2026-03-03T20:52:10.859Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-03-03T20:52:10.859Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-03-03T20:52:11.027Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 400
+[debug] [2026-03-03T20:52:11.027Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[error] Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+[error] Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+[debug] [2026-03-03T20:52:11.028Z] [iam] error while checking permissions, command may fail: Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+[debug] [2026-03-03T20:52:11.028Z] Checked if tokens are valid: false, expires at: 1772368726403
+[debug] [2026-03-03T20:52:11.028Z] Checked if tokens are valid: false, expires at: 1772368726403
+[debug] [2026-03-03T20:52:11.028Z] > refreshing access token with scopes: []
+[debug] [2026-03-03T20:52:11.028Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-03-03T20:52:11.028Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-03-03T20:52:11.090Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 400
+[debug] [2026-03-03T20:52:11.090Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[error] Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+[error] Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+[debug] [2026-03-03T20:52:11.091Z] Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
+
+For CI servers and headless environments, generate a new token with firebase login:ci
+[error] 
+[error] Error: Assertion failed: resolving hosting target of a site with no site name or target name. This should have caused an error earlier
